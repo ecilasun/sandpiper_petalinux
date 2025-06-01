@@ -1,8 +1,8 @@
 /include/ "system-conf.dtsi"
 / {
    reserved-memory {
-      address-cells = <1>;
-      size-cells = <1>;
+      #address-cells = <1>;
+      #size-cells = <1>;
       ranges;
 
       reserved: buffer@0x18000000 {
@@ -12,8 +12,8 @@
    };
 
    chosen {
-      address-cells = <1>;
-      size-cells = <1>;
+      #address-cells = <1>;
+      #size-cells = <1>;
       ranges;
 
       framebuffer@18000000 {
