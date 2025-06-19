@@ -1,5 +1,5 @@
 # Copyright (C) 2021-2022, Xilinx, Inc.  All rights reserved.
-# Copyright (C) 2022-2023, Advanced Micro Devices, Inc.  All rights reserved.
+# Copyright (C) 2022-2024, Advanced Micro Devices, Inc.  All rights reserved.
 #
 # SPDX-License-Identifier: MIT
 #
@@ -8,7 +8,7 @@ choice
 	prompt "Subsystem Architecture (NO EDIT!)"
 	default SUBSYSTEM_ARCH_ARM
 	help
-	  This option is to control the processor targeted by PetaLinux.
+	  This option is to control the processor targeted by System Configuration.
 	  WARNING: Do not edit this option.
 
 config SUBSYSTEM_ARCH_AARCH64
@@ -31,24 +31,30 @@ config SUBSYSTEM_ENDIAN_LITTLE
 	bool
 	default y
 
-if SUBSYSTEM_DISTRO_PETALINUX
+if SUBSYSTEM_SDT_FLOW
 
-source /home/ecilasun/sandpiper/project-spec/configs/configs/Kconfig.linuxcompselection
-
-source /home/ecilasun/sandpiper/project-spec/configs/configs/Kconfig.autoconfigsettings
+source /home/ecilasun/sandpiper_petalinux/project-spec/configs/configs/Kconfig.bootcompselection
 
 endif
 
-source /home/ecilasun/sandpiper/project-spec/configs/configs/Kconfig.syshw
-
-source /home/ecilasun/sandpiper/project-spec/configs/configs/Kconfig.dtgsettings
-
-source /home/ecilasun/sandpiper/project-spec/configs/configs/Kconfig.bootcompconfigurations
-
 if SUBSYSTEM_DISTRO_PETALINUX
 
-source /home/ecilasun/sandpiper/project-spec/configs/configs/Kconfig.imagepkgconfigurations
+source /home/ecilasun/sandpiper_petalinux/project-spec/configs/configs/Kconfig.linuxcompselection
+
+source /home/ecilasun/sandpiper_petalinux/project-spec/configs/configs/Kconfig.autoconfigsettings
 
 endif
 
-source /home/ecilasun/sandpiper/project-spec/configs/configs/Kconfig.yoctobuildsettings
+source /home/ecilasun/sandpiper_petalinux/project-spec/configs/configs/Kconfig.syshw
+
+source /home/ecilasun/sandpiper_petalinux/project-spec/configs/configs/Kconfig.dtgsettings
+
+source /home/ecilasun/sandpiper_petalinux/project-spec/configs/configs/Kconfig.bootcompconfigurations
+
+if SUBSYSTEM_DISTRO_PETALINUX
+
+source /home/ecilasun/sandpiper_petalinux/project-spec/configs/configs/Kconfig.imagepkgconfigurations
+
+endif
+
+source /home/ecilasun/sandpiper_petalinux/project-spec/configs/configs/Kconfig.yoctobuildsettings

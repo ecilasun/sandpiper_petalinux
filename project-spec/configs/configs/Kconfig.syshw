@@ -31,7 +31,7 @@ choice
 	The configuration in this menu impacts the
 	memory settings in the device tree autoconfig files.
 	If you select "manual",
-	PetaLinux will auto generate memory node based on user inputs,
+	Auto generate the memory node based on user inputs,
 	you will need to specify base address and memory size.
 	To skip generating lower or upper memory node specify 0x0 offset to the memory size.
 
@@ -64,6 +64,7 @@ config SUBSYSTEM_MEMORY_PS7_DDR_0_SIZE
 
 config SUBSYSTEM_MEMORY_PS7_DDR_0_U__BOOT_TEXTBASE_OFFSET
 	hex "u-boot text base address"
+	default 0x40000000 if SYSTEM_VERSAL-2VE-2VM
 	default 0x8000000 if SUBSYSTEM_ARCH_AARCH64
 	default 0x4000000 if SUBSYSTEM_ARCH_ARM
 	default 0x100000 if SUBSYSTEM_ARCH_MICROBLAZE
@@ -125,9 +126,10 @@ choice
 	help
 	Select a serial as the FSBL's stdin,stdout.
 	If you select 'manual', you will need to add this variable
-	YAML_SERIAL_CONSOLE_STDIN:forcevariable:pn-<recipename> = "<serial_ipname>"
-	YAML_SERIAL_CONSOLE_STDOUT:forcevariable:pn-<recipename> = "<serial_ipname>"
-	in petalinuxbsp.conf file to specify the stdin/stdout."
+	For XSCT flow:
+	 YAML_SERIAL_CONSOLE_STDIN:forcevariable:pn-<recipename> = "<serial_ipname>"
+	 YAML_SERIAL_CONSOLE_STDOUT:forcevariable:pn-<recipename> = "<serial_ipname>"
+	 in petalinuxbsp.conf file or local.conf to specify the stdin/stdout."
 
 config SUBSYSTEM_FSBL_SERIAL_PS7_UART_0_SELECT
 	bool "ps7_uart_0"
@@ -142,9 +144,10 @@ choice
 	help
 	Select a serial as the U-boot and Linux's stdin,stdout.
 	If you select 'manual', you will need to add this variable
-	YAML_SERIAL_CONSOLE_STDIN:forcevariable:pn-<recipename> = "<serial_ipname>"
-	YAML_SERIAL_CONSOLE_STDOUT:forcevariable:pn-<recipename> = "<serial_ipname>"
-	in petalinuxbsp.conf file to specify the stdin/stdout."
+	For XSCT flow:
+	 YAML_SERIAL_CONSOLE_STDIN:forcevariable:pn-<recipename> = "<serial_ipname>"
+	 YAML_SERIAL_CONSOLE_STDOUT:forcevariable:pn-<recipename> = "<serial_ipname>"
+	 in petalinuxbsp.conf file or local.conf to specify the stdin/stdout."
 
 config SUBSYSTEM_SERIAL_PS7_UART_0_SELECT
 	bool "ps7_uart_0"
@@ -231,11 +234,10 @@ config SUBSYSTEM_ETHERNET_PS7_ETHERNET_0_MAC_PATTERN
 
 config SUBSYSTEM_ETHERNET_PS7_ETHERNET_0_MAC
 	string "Ethernet MAC address"
-	default "ff:ff:ff:ff:ff:ff"
 	depends on SUBSYSTEM_ETHERNET_PS7_ETHERNET_0_SELECT && !SUBSYSTEM_ETHERNET_PS7_ETHERNET_0_MAC_AUTO
 	help
-	Default mac set to ff:ff:ff:ff:ff:ff invalid mac address to read from EEPROM
-	if you want change with desired value you can change, example: 00:0a:35:00:22:01
+	Default mac address will set from eeprom fru data
+	if you want change with desired value you can change, example: 00:0a:35:00:22:01 or ff:ff:ff:ff:ff:ff
 
 config SUBSYSTEM_ETHERNET_PS7_ETHERNET_0_USE_DHCP
 	bool "Obtain IP address automatically"
@@ -277,9 +279,9 @@ choice
 	prompt "Primary Flash"
 	help
 	Select a Flash instance used as Primary Flash.
-	PetaLinux auto config will apply the flash partition table settings
+	Auto config will apply the flash partition table settings
 	to the primary flash.
-	If you preferred flash is not on the list or you don't want PetaLinux
+	If you preferred flash is not on the list or you don't want
 	to manage your flash partition, please select manual.
 
 config SUBSYSTEM_FLASH_PS7_QSPI_0_SELECT

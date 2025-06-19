@@ -8,12 +8,12 @@ config SUBSYSTEM_TYPE_LINUX
 config SYSTEM_ZYNQ
         bool "ZYNQ Configuration"
         help
-          ZYNQ Configuration for petalinux project.
-          All these config options will be in /home/ecilasun/sandpiper/project-spec/configs/config
+          ZYNQ Configuration for the project.
+          All these config options will be in /home/ecilasun/sandpiper_petalinux/project-spec/configs/config
 
 config SUBSYSTEM_DISTRO_PETALINUX
         bool
         default y
         help
 
-source /home/ecilasun/sandpiper/project-spec/configs/configs/Kconfig.main
+source /home/ecilasun/sandpiper_petalinux/project-spec/configs/configs/Kconfig.main

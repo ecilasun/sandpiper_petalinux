@@ -26,7 +26,7 @@ CONFIG_sudo=y
 #
 # base-files 
 #
-CONFIG_base-files=y
+# CONFIG_base-files is not set
 # CONFIG_base-files-dbg is not set
 # CONFIG_base-files-dev is not set
 
@@ -306,7 +306,7 @@ CONFIG_mtd-utils=y
 #
 # tar 
 #
-CONFIG_tar=y
+# CONFIG_tar is not set
 # CONFIG_tar-dev is not set
 # CONFIG_tar-rmt is not set
 # CONFIG_tar-dbg is not set
@@ -338,7 +338,7 @@ CONFIG_tar=y
 #
 # usbutils 
 #
-CONFIG_usbutils=y
+# CONFIG_usbutils is not set
 # CONFIG_usbutils-dbg is not set
 # CONFIG_usbutils-dev is not set
 
@@ -497,7 +497,7 @@ CONFIG_can-utils=y
 #
 # minicom 
 #
-CONFIG_minicom=y
+# CONFIG_minicom is not set
 # CONFIG_minicom-dbg is not set
 # CONFIG_minicom-dev is not set
 
@@ -578,7 +578,7 @@ CONFIG_nfs-utils=y
 #
 # wget 
 #
-CONFIG_wget=y
+# CONFIG_wget is not set
 # CONFIG_wget-dev is not set
 # CONFIG_wget-dbg is not set
 
@@ -657,7 +657,7 @@ CONFIG_wget=y
 #
 # git 
 #
-CONFIG_git=y
+# CONFIG_git is not set
 # CONFIG_git-bash-completion is not set
 # CONFIG_gitweb is not set
 # CONFIG_git-perltools is not set
@@ -667,7 +667,7 @@ CONFIG_git=y
 #
 # grep 
 #
-CONFIG_grep=y
+# CONFIG_grep is not set
 # CONFIG_grep-dbg is not set
 # CONFIG_grep-dev is not set
 
@@ -805,7 +805,7 @@ CONFIG_pciutils=y
 #
 # vim 
 #
-CONFIG_vim=y
+# CONFIG_vim is not set
 # CONFIG_vim-syntax is not set
 # CONFIG_vim-dev is not set
 # CONFIG_vim-help is not set
@@ -829,28 +829,28 @@ CONFIG_vim=y
 #
 # autoconf 
 #
-CONFIG_autoconf=y
+# CONFIG_autoconf is not set
 # CONFIG_autoconf-dev is not set
 # CONFIG_autoconf-dbg is not set
 
 #
 # automake 
 #
-CONFIG_automake=y
+# CONFIG_automake is not set
 # CONFIG_automake-dev is not set
 # CONFIG_automake-dbg is not set
 
 #
 # binutils 
 #
-CONFIG_binutils=y
+# CONFIG_binutils is not set
 # CONFIG_binutils-dev is not set
 # CONFIG_binutils-dbg is not set
 
 #
 # bison 
 #
-CONFIG_bison=y
+# CONFIG_bison is not set
 # CONFIG_bison-dbg is not set
 # CONFIG_bison-dev is not set
 
@@ -885,7 +885,7 @@ CONFIG_bison=y
 #
 # flex 
 #
-CONFIG_flex=y
+# CONFIG_flex is not set
 # CONFIG_flex-dev is not set
 # CONFIG_flex-dbg is not set
 
@@ -946,7 +946,7 @@ CONFIG_flex=y
 #
 # make 
 #
-CONFIG_make=y
+# CONFIG_make is not set
 # CONFIG_make-dbg is not set
 # CONFIG_make-dev is not set
 
@@ -1057,7 +1057,7 @@ CONFIG_run-postinsts=y
 #
 # cantarell-fonts 
 #
-CONFIG_cantarell-fonts=y
+# CONFIG_cantarell-fonts is not set
 # CONFIG_cantarell-fonts-dbg is not set
 # CONFIG_cantarell-fonts-dev is not set
 
@@ -1072,7 +1072,7 @@ CONFIG_cantarell-fonts=y
 #
 # kexec-tools 
 #
-CONFIG_kexec-tools=y
+# CONFIG_kexec-tools is not set
 # CONFIG_kexec-tools-dbg is not set
 # CONFIG_kdump is not set
 # CONFIG_kexec-tools-dev is not set
@@ -1454,9 +1454,9 @@ CONFIG_kexec-tools=y
 #
 # libmetal 
 #
-CONFIG_libmetal=y
+# CONFIG_libmetal is not set
 # CONFIG_libmetal-dbg is not set
-CONFIG_libmetal-dev=y
+# CONFIG_libmetal-dev is not set
 
 #
 # libmpc 
@@ -1511,7 +1511,7 @@ CONFIG_libmetal-dev=y
 #
 # libpng 
 #
-CONFIG_libpng=y
+# CONFIG_libpng is not set
 # CONFIG_libpng-dev is not set
 # CONFIG_libpng-dbg is not set
 # CONFIG_libpng-tools is not set
@@ -1584,7 +1584,7 @@ CONFIG_libpng=y
 #
 # libusb1 
 #
-CONFIG_libusb1=y
+# CONFIG_libusb1 is not set
 # CONFIG_libusb1-dbg is not set
 # CONFIG_libusb1-dev is not set
 
@@ -2136,7 +2136,7 @@ CONFIG_libusb1=y
 #
 # coreutils 
 #
-CONFIG_coreutils=y
+# CONFIG_coreutils is not set
 # CONFIG_coreutils-dev is not set
 # CONFIG_coreutils-dbg is not set
 
@@ -2192,17 +2192,17 @@ CONFIG_linux-xlnx-udev-rules=y
 #
 # gcc-runtime 
 #
-CONFIG_libstdcPLUSPLUS=y
+# CONFIG_libstdcPLUSPLUS is not set
 # CONFIG_libstdcPLUSPLUS-dev is not set
 
 #
 # gcc-sanitizers 
 #
-CONFIG_gcc-sanitizers=y
+# CONFIG_gcc-sanitizers is not set
 # CONFIG_libubsan-dev is not set
-CONFIG_libubsan=y
+# CONFIG_libubsan is not set
 # CONFIG_gcc-sanitizers-dbg is not set
-CONFIG_libasan=y
+# CONFIG_libasan is not set
 # CONFIG_libasan-dev is not set
 
 #
@@ -2215,15 +2215,15 @@ CONFIG_libasan=y
 #
 # gdb 
 #
-CONFIG_gdb=y
+# CONFIG_gdb is not set
 # CONFIG_gdb-dbg is not set
 # CONFIG_gdb-dev is not set
-CONFIG_gdbserver=y
+# CONFIG_gdbserver is not set
 
 #
 # glib-2.0 
 #
-CONFIG_glib-2.0=y
+# CONFIG_glib-2.0 is not set
 # CONFIG_glib-2.0-codegen is not set
 # CONFIG_glib-2.0-utils is not set
 # CONFIG_glib-2.0-dbg is not set
@@ -2233,10 +2233,10 @@ CONFIG_glib-2.0=y
 #
 # glibc 
 #
-CONFIG_glibc=y
+# CONFIG_glibc is not set
 # CONFIG_glibc-dev is not set
 # CONFIG_glibc-dbg is not set
-CONFIG_ldd=y
+# CONFIG_ldd is not set
 
 #
 # gnome-desktop-testing 
@@ -2314,7 +2314,7 @@ CONFIG_ldd=y
 #
 # iotop 
 #
-CONFIG_iotop=y
+# CONFIG_iotop is not set
 # CONFIG_iotop-dev is not set
 # CONFIG_iotop-dbg is not set
 
@@ -2417,27 +2417,6 @@ CONFIG_iotop=y
 # CONFIG_ofono-dbg is not set
 
 #
-# openamp-fw-echo-testd 
-#
-# CONFIG_openamp-fw-echo-testd is not set
-# CONFIG_openamp-fw-echo-testd-dev is not set
-# CONFIG_openamp-fw-echo-testd-dbg is not set
-
-#
-# openamp-fw-mat-muld 
-#
-# CONFIG_openamp-fw-mat-muld is not set
-# CONFIG_openamp-fw-mat-muld-dev is not set
-# CONFIG_openamp-fw-mat-muld-dbg is not set
-
-#
-# openamp-fw-rpc-demo 
-#
-# CONFIG_openamp-fw-rpc-demo is not set
-# CONFIG_openamp-fw-rpc-demo-dev is not set
-# CONFIG_openamp-fw-rpc-demo-dbg is not set
-
-#
 # opkg-arch-config 
 #
 # CONFIG_opkg-arch-config is not set
@@ -2475,7 +2454,7 @@ CONFIG_packagegroup-core-boot=y
 #
 # packagegroup-core-sdk 
 #
-CONFIG_packagegroup-core-sdk=y
+# CONFIG_packagegroup-core-sdk is not set
 # CONFIG_packagegroup-core-sdk-dbg is not set
 # CONFIG_packagegroup-core-sdk-dev is not set
 
@@ -2534,7 +2513,7 @@ CONFIG_packagegroup-core-sdk=y
 #
 # packagegroup-self-hosted 
 #
-CONFIG_packagegroup-self-hosted=y
+# CONFIG_packagegroup-self-hosted is not set
 # CONFIG_packagegroup-self-hosted-extended-dev is not set
 # CONFIG_packagegroup-self-hosted-debug-dev is not set
 # CONFIG_packagegroup-self-hosted-dev is not set
@@ -2586,7 +2565,7 @@ CONFIG_packagegroup-self-hosted=y
 #
 # python3 
 #
-CONFIG_python3=y
+# CONFIG_python3 is not set
 # CONFIG_python3-smtpd is not set
 # CONFIG_python3-syslog is not set
 # CONFIG_python3-pickle is not set
@@ -3237,7 +3216,7 @@ CONFIG_bridge-utils=y
 #
 # netcat 
 #
-CONFIG_netcat=y
+# CONFIG_netcat is not set
 # CONFIG_netcat-dbg is not set
 # CONFIG_netcat-dev is not set
 
@@ -3759,12 +3738,10 @@ CONFIG_u-boot-tools=y
 # CONFIG_imagefeature-ssh-server-dropbear is not set
 CONFIG_imagefeature-ssh-server-openssh=y
 CONFIG_imagefeature-hwcodecs=y
-CONFIG_imagefeature-package-management=y
-CONFIG_package-feed-uris=""
-CONFIG_package-feed-archs=""
+# CONFIG_imagefeature-package-management is not set
 # CONFIG_imagefeature-debug-tweaks is not set
-CONFIG_imagefeature-empty-root-password=y
-CONFIG_imagefeature-serial-autologin-root=y
+# CONFIG_imagefeature-empty-root-password is not set
+# CONFIG_imagefeature-serial-autologin-root is not set
 # CONFIG_Init-manager-systemd is not set
 CONFIG_Init-manager-sysvinit=y
 
@@ -3773,12 +3750,11 @@ CONFIG_Init-manager-sysvinit=y
 #
 # CONFIG_gpio-demo is not set
 # CONFIG_peekpoke is not set
-CONFIG_sandyfb=y
 
 #
 # PetaLinux RootFS Settings
 #
-CONFIG_ADD_EXTRA_USERS="root:root;peta:peta;"
+CONFIG_ADD_EXTRA_USERS="root:root;petalinux::passwd-expire;"
 CONFIG_CREATE_NEW_GROUPS="aie;"
-CONFIG_ADD_USERS_TO_GROUPS="peta:audio,video,aie,input;"
-CONFIG_ADD_USERS_TO_SUDOERS="peta"
+CONFIG_ADD_USERS_TO_GROUPS="petalinux:audio,video,aie,input;"
+CONFIG_ADD_USERS_TO_SUDOERS="petalinux"

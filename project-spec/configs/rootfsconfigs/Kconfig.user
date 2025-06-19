@@ -7,8 +7,4 @@ config peekpoke
 	 bool "peekpoke"
 	 help
 	
-config sandyfb  
-	 bool "sandyfb"
-	 help
-	
 endmenu
