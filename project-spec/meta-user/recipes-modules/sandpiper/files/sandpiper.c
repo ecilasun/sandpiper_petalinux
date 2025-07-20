@@ -29,6 +29,10 @@
 // IOCTL command definition
 #define MY_IOCTL_GET_VIDEO_CTL _IOR('k', 0, void*)
 #define MY_IOCTL_GET_AUDIO_CTL _IOR('k', 1, void*)
+#define SP_IOCTL_AUDIO_READ _IOR('k', 2, uint32_t*)
+#define SP_IOCTL_AUDIO_WRITE _IOW('k', 3, uint32_t*)
+#define SP_IOCTL_VIDEO_READ _IOR('k', 4, uint32_t*)
+#define SP_IOCTL_VIDEO_WRITE _IOW('k', 5, uint32_t*)
 
 struct my_driver_data {
 	void __iomem *audio_ctl;
@@ -159,7 +163,6 @@ static long dev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 		{
             if (copy_to_user((void __user *)arg, &drvdata->video_ctl, sizeof(drvdata->video_ctl)))
                 return -EFAULT;
-			printk(KERN_INFO "%s: ioctl command MY_IOCTL_GET_VIDEO_CTL executed, virtual address 0x%x returned\n", DEVICE_NAME, (uint32_t)drvdata->video_ctl);
 		}
 		break;
 
@@ -167,11 +170,50 @@ static long dev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 		{
             if (copy_to_user((void __user *)arg, &drvdata->audio_ctl, sizeof(drvdata->audio_ctl)))
                 return -EFAULT;
-			printk(KERN_INFO "%s: ioctl command MY_IOCTL_GET_AUDIO_CTL executed, virtual address 0x%x returned\n", DEVICE_NAME, (uint32_t)drvdata->audio_ctl);
 		}
 		break;
 
-        default:
+		case SP_IOCTL_AUDIO_READ:
+		{
+			uint32_t value;
+
+			value = ioread32(drvdata->audio_ctl);
+			if (copy_to_user((void __user *)arg, &value, sizeof(value)))
+				return -EFAULT;
+		}
+		break;
+
+		case SP_IOCTL_AUDIO_WRITE:
+		{
+			uint32_t value;
+
+			if (copy_from_user(&value, (void __user *)arg, sizeof(value)))
+				return -EFAULT;
+			iowrite32(value, drvdata->audio_ctl);
+		}
+		break;
+
+		case SP_IOCTL_VIDEO_READ:
+		{
+			uint32_t value;
+
+			value = ioread32(drvdata->video_ctl);
+			if (copy_to_user((void __user *)arg, &value, sizeof(value)))
+				return -EFAULT;
+		}
+		break;
+
+		case SP_IOCTL_VIDEO_WRITE:
+		{
+			uint32_t value;
+
+			if (copy_from_user(&value, (void __user *)arg, sizeof(value)))
+				return -EFAULT;
+			iowrite32(value, drvdata->video_ctl);
+		}
+		break;
+
+		default:
             return -ENOTTY;
     }
 
