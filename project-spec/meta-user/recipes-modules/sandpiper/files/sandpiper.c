@@ -11,8 +11,12 @@
 #include <linux/ioctl.h>
 #include <linux/of.h>
 
-// Reserved memory region start
+// Shared memory physical address
 #define PHYS_ADDR 0x18000000
+
+// Control registers physical address
+#define VIDEO_CTRL_REGS_ADDR 0x40000000
+#define AUDIO_CTRL_REGS_ADDR 0x40001000
 
 // 32Mbytes of reserved memory
 #define MEM_SIZE 0x2000000
@@ -21,10 +25,12 @@
 #define DEVICE_NAME "sandpiper"
 
 // IOCTL command definition
-#define MY_IOCTL_GET_VIRT_ADDR _IOR('k', 0, void*)
+#define MY_IOCTL_GET_VIDEO_CTL _IOR('k', 0, void*)
+#define MY_IOCTL_GET_AUDIO_CTL _IOR('k', 1, void*)
 
 struct my_driver_data {
-	void __iomem *virt_addr;
+	void __iomem *video_ctl;
+	void __iomem *audio_ctl;
     struct cdev cdev;
     struct device *device;
 };
@@ -55,16 +61,24 @@ static int sandpiper_probe(struct platform_device *pdev)
         return -ENOMEM;
 	}
 
-    drvdata->virt_addr = ioremap(PHYS_ADDR, MEM_SIZE);
-    if (!drvdata->virt_addr) {
-        printk(KERN_INFO "%s: ioremap failed\n", DEVICE_NAME);
+    drvdata->video_ctl = ioremap(VIDEO_CTRL_REGS_ADDR, MEM_SIZE);
+    if (!drvdata->video_ctl) {
+        printk(KERN_INFO "%s: video control register ioremap failed\n", DEVICE_NAME);
+        return -ENOMEM;
+    }
+
+    drvdata->audio_ctl = ioremap(AUDIO_CTRL_REGS_ADDR, MEM_SIZE);
+    if (!drvdata->audio_ctl) {
+        printk(KERN_INFO "%s: audio control register ioremap failed\n", DEVICE_NAME);
+        iounmap(drvdata->video_ctl);
         return -ENOMEM;
     }
 
     ret = alloc_chrdev_region(&dev_num, 0, 1, DEVICE_NAME);
     if (ret < 0) {
         printk(KERN_INFO "%s: failed to allocate character device region\n", DEVICE_NAME);
-        iounmap(drvdata->virt_addr);
+        iounmap(drvdata->video_ctl);
+        iounmap(drvdata->audio_ctl);
         return ret;
     }
 
@@ -75,7 +89,8 @@ static int sandpiper_probe(struct platform_device *pdev)
     if (ret < 0) {
         printk(KERN_INFO "%s: failed to add character device\n", DEVICE_NAME);
         unregister_chrdev_region(dev_num, 1);
-        iounmap(drvdata->virt_addr);
+        iounmap(drvdata->video_ctl);
+        iounmap(drvdata->audio_ctl);
         return ret;
     }
 
@@ -85,15 +100,16 @@ static int sandpiper_probe(struct platform_device *pdev)
 
 		cdev_del(&drvdata->cdev);
         unregister_chrdev_region(dev_num, 1);
-        iounmap(drvdata->virt_addr);
-
+        iounmap(drvdata->video_ctl);
+        iounmap(drvdata->audio_ctl);
 		return PTR_ERR(drvdata->device);
     }
 
     platform_set_drvdata(pdev, drvdata);
 
-    printk(KERN_INFO "%s: physical address 0x%x mapped to virtual address 0x%x\n", DEVICE_NAME, PHYS_ADDR, (uint32_t)drvdata->virt_addr);
-    printk(KERN_INFO "%s: character device /dev/%s created\n", DEVICE_NAME, DEVICE_NAME);
+    printk(KERN_INFO "%s: video device at 0x%x mapped to virtual address 0x%x\n", DEVICE_NAME, VIDEO_CTRL_REGS_ADDR, (uint32_t)drvdata->video_ctl);
+    printk(KERN_INFO "%s: audio device at 0x%x mapped to virtual address 0x%x\n", DEVICE_NAME, AUDIO_CTRL_REGS_ADDR, (uint32_t)drvdata->audio_ctl);
+	printk(KERN_INFO "%s: character device /dev/%s created\n", DEVICE_NAME, DEVICE_NAME);
 
     return 0;
 }
@@ -107,9 +123,10 @@ static void sandpiper_remove(struct platform_device *pdev)
 
     cdev_del(&drvdata->cdev);
     unregister_chrdev_region(drvdata->cdev.dev, 1);
-    iounmap(drvdata->virt_addr);
+    iounmap(drvdata->video_ctl);
+    iounmap(drvdata->audio_ctl);
 
-    printk(KERN_INFO "%s: virtual address 0x%x unmapped and character device removed\n", DEVICE_NAME, (uint32_t)drvdata->virt_addr);
+    printk(KERN_INFO "%s: virtual address 0x%x unmapped and character device removed\n", DEVICE_NAME, (uint32_t)drvdata->video_ctl);
 }
 
 static int dev_open(struct inode *inode, struct file *file)
@@ -117,7 +134,7 @@ static int dev_open(struct inode *inode, struct file *file)
     struct my_driver_data *drvdata = container_of(inode->i_cdev, struct my_driver_data, cdev);
     file->private_data = drvdata;
 
-	printk(KERN_INFO "%s: device opened, virtual memory at 0x%x\n", DEVICE_NAME, (uint32_t)drvdata->virt_addr);
+	printk(KERN_INFO "%s: device opened, virtual memory at 0x%x\n", DEVICE_NAME, (uint32_t)drvdata->video_ctl);
 
 	return 0;
 }
@@ -134,11 +151,19 @@ static long dev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
     struct my_driver_data *drvdata = (struct my_driver_data*)file->private_data;
 
     switch (cmd) {
-        case MY_IOCTL_GET_VIRT_ADDR:
+        case MY_IOCTL_GET_VIDEO_CTL:
 		{
-            if (copy_to_user((void __user *)arg, &drvdata->virt_addr, sizeof(drvdata->virt_addr)))
+            if (copy_to_user((void __user *)arg, &drvdata->video_ctl, sizeof(drvdata->video_ctl)))
                 return -EFAULT;
-			printk(KERN_INFO "%s: ioctl command MY_IOCTL_GET_VIRT_ADDR executed, virtual address 0x%x returned\n", DEVICE_NAME, (uint32_t)drvdata->virt_addr);
+			printk(KERN_INFO "%s: ioctl command MY_IOCTL_GET_VIDEO_CTL executed, virtual address 0x%x returned\n", DEVICE_NAME, (uint32_t)drvdata->video_ctl);
+		}
+		break;
+
+		case MY_IOCTL_GET_AUDIO_CTL:
+		{
+            if (copy_to_user((void __user *)arg, &drvdata->audio_ctl, sizeof(drvdata->audio_ctl)))
+                return -EFAULT;
+			printk(KERN_INFO "%s: ioctl command MY_IOCTL_GET_AUDIO_CTL executed, virtual address 0x%x returned\n", DEVICE_NAME, (uint32_t)drvdata->audio_ctl);
 		}
 		break;
 
@@ -215,4 +240,4 @@ module_exit(sandpiper_exit);
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Engin Cilasun");
-MODULE_DESCRIPTION("system driver for sandpiper device");
+MODULE_DESCRIPTION("platform driver for sandpiper");
