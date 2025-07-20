@@ -35,8 +35,8 @@
 #define SP_IOCTL_VIDEO_WRITE _IOW('k', 5, uint32_t*)
 
 struct my_driver_data {
-	void __iomem *audio_ctl;
-	void __iomem *video_ctl;
+	volatile uint32_t *audio_ctl;	// User side code has to mmap this address when accessing audio control registers
+	volatile uint32_t *video_ctl;	// User side code has to mmap this address when accessing video control registers
     struct cdev cdev;
     struct device *device;
 };
@@ -67,24 +67,12 @@ static int sandpiper_probe(struct platform_device *pdev)
         return -ENOMEM;
 	}
 
-    drvdata->audio_ctl = ioremap(AUDIO_CTRL_REGS_ADDR, DEVICE_MEMORY_SIZE);
-    if (!drvdata->audio_ctl) {
-        printk(KERN_INFO "%s: audio control register ioremap failed\n", DEVICE_NAME);
-        iounmap(drvdata->video_ctl);
-        return -ENOMEM;
-    }
-
-    drvdata->video_ctl = ioremap(VIDEO_CTRL_REGS_ADDR, DEVICE_MEMORY_SIZE);
-    if (!drvdata->video_ctl) {
-        printk(KERN_INFO "%s: video control register ioremap failed\n", DEVICE_NAME);
-        return -ENOMEM;
-    }
+    drvdata->audio_ctl = (volatile uint32_t *)AUDIO_CTRL_REGS_ADDR;
+	drvdata->video_ctl = (volatile uint32_t *)VIDEO_CTRL_REGS_ADDR;
 
     ret = alloc_chrdev_region(&dev_num, 0, 1, DEVICE_NAME);
     if (ret < 0) {
         printk(KERN_INFO "%s: failed to allocate character device region\n", DEVICE_NAME);
-        iounmap(drvdata->video_ctl);
-        iounmap(drvdata->audio_ctl);
         return ret;
     }
 
@@ -97,8 +85,6 @@ static int sandpiper_probe(struct platform_device *pdev)
 
 		cdev_del(&drvdata->cdev);
         unregister_chrdev_region(dev_num, 1);
-        iounmap(drvdata->video_ctl);
-        iounmap(drvdata->audio_ctl);
         return ret;
     }
 
@@ -108,15 +94,13 @@ static int sandpiper_probe(struct platform_device *pdev)
 
 		cdev_del(&drvdata->cdev);
         unregister_chrdev_region(dev_num, 1);
-        iounmap(drvdata->video_ctl);
-        iounmap(drvdata->audio_ctl);
 		return PTR_ERR(drvdata->device);
     }
 
     platform_set_drvdata(pdev, drvdata);
 
-    printk(KERN_INFO "%s: audio device at 0x%x mapped to virtual address 0x%x\n", DEVICE_NAME, AUDIO_CTRL_REGS_ADDR, (uint32_t)drvdata->audio_ctl);
-    printk(KERN_INFO "%s: video device at 0x%x mapped to virtual address 0x%x\n", DEVICE_NAME, VIDEO_CTRL_REGS_ADDR, (uint32_t)drvdata->video_ctl);
+    printk(KERN_INFO "%s: audio control registers at 0x%x\n", DEVICE_NAME, (uint32_t)drvdata->audio_ctl);
+    printk(KERN_INFO "%s: video control registers at 0x%x\n", DEVICE_NAME, (uint32_t)drvdata->video_ctl);
 	printk(KERN_INFO "%s: character device /dev/%s created\n", DEVICE_NAME, DEVICE_NAME);
 
     return 0;
@@ -131,8 +115,6 @@ static void sandpiper_remove(struct platform_device *pdev)
 
     cdev_del(&drvdata->cdev);
     unregister_chrdev_region(drvdata->cdev.dev, 1);
-    iounmap(drvdata->video_ctl);
-    iounmap(drvdata->audio_ctl);
 
     printk(KERN_INFO "%s: control registers unmapped and character device removed\n", DEVICE_NAME);
 }
@@ -141,16 +123,11 @@ static int dev_open(struct inode *inode, struct file *file)
 {
     struct my_driver_data *drvdata = container_of(inode->i_cdev, struct my_driver_data, cdev);
     file->private_data = drvdata;
-
-	printk(KERN_INFO "%s: device opened, video control at 0x%x, audio control at 0x%x\n", DEVICE_NAME, (uint32_t)drvdata->video_ctl, (uint32_t)drvdata->audio_ctl);
-
 	return 0;
 }
 
 static int dev_release(struct inode *inode, struct file *file)
 {
-    printk(KERN_INFO "%s: device released\n", DEVICE_NAME);
-
 	return 0;
 }
 
@@ -175,9 +152,7 @@ static long dev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 
 		case SP_IOCTL_AUDIO_READ:
 		{
-			uint32_t value;
-
-			value = ioread32(drvdata->audio_ctl);
+			uint32_t value = *(uint32_t*)(drvdata->audio_ctl);
 			if (copy_to_user((void __user *)arg, &value, sizeof(value)))
 				return -EFAULT;
 		}
@@ -186,18 +161,15 @@ static long dev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 		case SP_IOCTL_AUDIO_WRITE:
 		{
 			uint32_t value;
-
 			if (copy_from_user(&value, (void __user *)arg, sizeof(value)))
 				return -EFAULT;
-			iowrite32(value, drvdata->audio_ctl);
+			*(volatile uint32_t*)(drvdata->audio_ctl)= value;
 		}
 		break;
 
 		case SP_IOCTL_VIDEO_READ:
 		{
-			uint32_t value;
-
-			value = ioread32(drvdata->video_ctl);
+			uint32_t value = *(uint32_t*)(drvdata->video_ctl);
 			if (copy_to_user((void __user *)arg, &value, sizeof(value)))
 				return -EFAULT;
 		}
@@ -206,10 +178,9 @@ static long dev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 		case SP_IOCTL_VIDEO_WRITE:
 		{
 			uint32_t value;
-
 			if (copy_from_user(&value, (void __user *)arg, sizeof(value)))
 				return -EFAULT;
-			iowrite32(value, drvdata->video_ctl);
+			*(volatile uint32_t*)(drvdata->video_ctl)= value;
 		}
 		break;
 
@@ -225,22 +196,50 @@ static int dev_mmap(struct file *file, struct vm_area_struct *vma)
 	struct my_driver_data *drvdata = (struct my_driver_data*)file->private_data;
 	unsigned long size = vma->vm_end - vma->vm_start;
 	unsigned long offset = vma->vm_pgoff << PAGE_SHIFT;
+	unsigned long physical_addr = 0;
 
-	if (offset + size > RESERVED_MEMORY_SIZE)
+	if (offset == PHYS_ADDR)
 	{
-		printk(KERN_INFO "%s: mmap request exceeds memory region\n", DEVICE_NAME);
+		physical_addr = PHYS_ADDR;
+		if (size > RESERVED_MEMORY_SIZE)
+		{
+			printk(KERN_INFO "%s: mmap request exceeds memory region\n", DEVICE_NAME);
+			return -EINVAL;
+		}
+	}
+	else if (offset == AUDIO_CTRL_REGS_ADDR)
+	{
+		physical_addr = AUDIO_CTRL_REGS_ADDR;
+		if (size > DEVICE_MEMORY_SIZE)
+		{
+			printk(KERN_INFO "%s: mmap request exceeds memory region\n", DEVICE_NAME);
+			return -EINVAL;
+		}
+	}
+	else if (offset == VIDEO_CTRL_REGS_ADDR)
+	{
+		physical_addr = VIDEO_CTRL_REGS_ADDR;
+		if (size > DEVICE_MEMORY_SIZE)
+		{
+			printk(KERN_INFO "%s: mmap request exceeds memory region\n", DEVICE_NAME);
+			return -EINVAL;
+		}
+	}
+	else
+	{
+		printk(KERN_INFO "%s: invalid mmap offset 0x%lx\n", DEVICE_NAME, offset);
 		return -EINVAL;
 	}
 
 	vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
 
-	if (remap_pfn_range(vma, vma->vm_start, (PHYS_ADDR + offset) >> PAGE_SHIFT, size, vma->vm_page_prot))
+	if (remap_pfn_range(vma, vma->vm_start, physical_addr >> PAGE_SHIFT, size, vma->vm_page_prot))
 	{
 		printk(KERN_INFO "%s: failed to remap page\n", DEVICE_NAME);
 		return -EAGAIN;
 	}
 
-	printk(KERN_INFO "%s: mmap successful, mapped address 0x%lx to virtual address 0x%x\n", DEVICE_NAME, PHYS_ADDR + offset, (uint32_t)vma->vm_start);
+	printk(KERN_INFO "%s: mmap successful, mapped physical address 0x%lx to virtual address 0x%x\n", DEVICE_NAME, physical_addr, (uint32_t)vma->vm_start);
 
 	return 0;
 }
