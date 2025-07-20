@@ -1,14 +1,14 @@
-2025-07-20 00:49:06,144 - [DEBUG] Using xsct from : /home/ecilasun/petalinux2025_1/components/xsct/bin/xsct
-2025-07-20 00:49:06,144 - [INFO] Getting Platform info from HW file
-2025-07-20 00:49:06,144 - [DEBUG] Using the soc_family specified by user:zynq
-2025-07-20 00:49:06,166 - [DEBUG] Hardware Configuration:
-2025-07-20 00:49:06,166 - [DEBUG] MACHINE     = "None"
-2025-07-20 00:49:06,166 - [DEBUG] DEVICE_ID   = "7z020"
-2025-07-20 00:49:06,166 - [DEBUG] SOC_FAMILY  = "zynq"
-2025-07-20 00:49:06,166 - [DEBUG] SOC_VARIANT = ""
-2025-07-20 00:49:06,166 - [INFO] Silentconfig project
-2025-07-20 00:49:06,166 - [DEBUG] Running CMD: yes "" | env KCONFIG_CONFIG=/home/ecilasun/sandpiper_petalinux/project-spec/configs/config conf /home/ecilasun/sandpiper_petalinux/project-spec/configs/configs/Kconfig
-2025-07-20 00:49:06,172 - [DEBUG] *
+2025-07-20 02:48:28,323 - [DEBUG] Using xsct from : /home/ecilasun/petalinux2025_1/components/xsct/bin/xsct
+2025-07-20 02:48:28,323 - [INFO] Getting Platform info from HW file
+2025-07-20 02:48:28,324 - [DEBUG] Using the soc_family specified by user:zynq
+2025-07-20 02:48:28,342 - [DEBUG] Hardware Configuration:
+2025-07-20 02:48:28,342 - [DEBUG] MACHINE     = "None"
+2025-07-20 02:48:28,342 - [DEBUG] DEVICE_ID   = "7z020"
+2025-07-20 02:48:28,342 - [DEBUG] SOC_FAMILY  = "zynq"
+2025-07-20 02:48:28,342 - [DEBUG] SOC_VARIANT = ""
+2025-07-20 02:48:28,342 - [INFO] Silentconfig project
+2025-07-20 02:48:28,342 - [DEBUG] Running CMD: yes "" | env KCONFIG_CONFIG=/home/ecilasun/sandpiper_petalinux/project-spec/configs/config conf /home/ecilasun/sandpiper_petalinux/project-spec/configs/configs/Kconfig
+2025-07-20 02:48:28,348 - [DEBUG] *
 * PetaLinux System Configuration
 *
 ZYNQ Configuration (SYSTEM_ZYNQ) [Y/?] y
@@ -246,9 +246,9 @@ user layer 0 (USER_LAYER_0) []
 #
 # configuration written to /home/ecilasun/sandpiper_petalinux/project-spec/configs/config
 #
-2025-07-20 00:49:06,238 - [INFO] Silentconfig rootfs
-2025-07-20 00:49:06,238 - [DEBUG] Running CMD: yes "" | env KCONFIG_CONFIG=/home/ecilasun/sandpiper_petalinux/project-spec/configs/rootfs_config conf /home/ecilasun/sandpiper_petalinux/project-spec/configs/rootfsconfigs/Kconfig
-2025-07-20 00:49:06,255 - [DEBUG] *
+2025-07-20 02:48:28,409 - [INFO] Silentconfig rootfs
+2025-07-20 02:48:28,409 - [DEBUG] Running CMD: yes "" | env KCONFIG_CONFIG=/home/ecilasun/sandpiper_petalinux/project-spec/configs/rootfs_config conf /home/ecilasun/sandpiper_petalinux/project-spec/configs/rootfsconfigs/Kconfig
+2025-07-20 02:48:28,427 - [DEBUG] *
 * Configuration
 *
 *
@@ -3529,7 +3529,7 @@ Add Users to Sudo users (ADD_USERS_TO_SUDOERS) [petalinux]
 #
 # configuration written to /home/ecilasun/sandpiper_petalinux/project-spec/configs/rootfs_config
 #
-2025-07-20 00:49:06,264 - [INFO] Generating configuration files
-2025-07-20 00:49:06,266 - [DEBUG] No multilibs enabled.
-2025-07-20 00:49:06,266 - [DEBUG] No multilibs enabled.
-2025-07-20 00:49:06,287 - [DEBUG] Shutting down bitbake
+2025-07-20 02:48:28,435 - [INFO] Generating configuration files
+2025-07-20 02:48:28,435 - [DEBUG] No multilibs enabled.
+2025-07-20 02:48:28,435 - [DEBUG] No multilibs enabled.
+2025-07-20 02:48:28,456 - [DEBUG] Shutting down bitbake

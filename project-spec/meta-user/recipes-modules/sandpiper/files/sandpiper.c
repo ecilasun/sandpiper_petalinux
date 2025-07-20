@@ -12,9 +12,8 @@
 #include <linux/of.h>
 
 // Reserved memory region start
-//#define PHYS_ADDR 0x18000000
-// Reserved memory region skipping the frame buffer
-#define PHYS_ADDR 0x18096000
+#define PHYS_ADDR 0x18000000
+
 // 32Mbytes of reserved memory
 #define MEM_SIZE 0x2000000
 
@@ -30,14 +29,16 @@ struct my_driver_data {
     struct device *device;
 };
 
-static int     dev_open(struct inode *, struct file *);
-static int     dev_release(struct inode *, struct file *);
-static long    dev_ioctl(struct file *, unsigned int, unsigned long);
+static int		dev_open(struct inode *, struct file *);
+static int		dev_release(struct inode *, struct file *);
+static long		dev_ioctl(struct file *, unsigned int, unsigned long);
+static int		dev_mmap(struct file *file, struct vm_area_struct *vma);
 
 static struct file_operations fops = {
     .owner   = THIS_MODULE,
     .open    = dev_open,
     .unlocked_ioctl = dev_ioctl,
+	.mmap = dev_mmap,
     .release = dev_release,
 };
 
@@ -91,7 +92,7 @@ static int sandpiper_probe(struct platform_device *pdev)
 
     platform_set_drvdata(pdev, drvdata);
 
-    printk(KERN_INFO "%s: physical address 0x%x mapped to virtual address 0x%p\n", DEVICE_NAME, PHYS_ADDR, drvdata->virt_addr);
+    printk(KERN_INFO "%s: physical address 0x%x mapped to virtual address 0x%x\n", DEVICE_NAME, PHYS_ADDR, (uint32_t)drvdata->virt_addr);
     printk(KERN_INFO "%s: character device /dev/%s created\n", DEVICE_NAME, DEVICE_NAME);
 
     return 0;
@@ -108,7 +109,7 @@ static void sandpiper_remove(struct platform_device *pdev)
     unregister_chrdev_region(drvdata->cdev.dev, 1);
     iounmap(drvdata->virt_addr);
 
-    printk(KERN_INFO "%s: virtual address unmapped and character device removed\n", DEVICE_NAME);
+    printk(KERN_INFO "%s: virtual address 0x%x unmapped and character device removed\n", DEVICE_NAME, (uint32_t)drvdata->virt_addr);
 }
 
 static int dev_open(struct inode *inode, struct file *file)
@@ -116,7 +117,7 @@ static int dev_open(struct inode *inode, struct file *file)
     struct my_driver_data *drvdata = container_of(inode->i_cdev, struct my_driver_data, cdev);
     file->private_data = drvdata;
 
-	printk(KERN_INFO "%s: device opened\n", DEVICE_NAME);
+	printk(KERN_INFO "%s: device opened, virtual memory at 0x%x\n", DEVICE_NAME, (uint32_t)drvdata->virt_addr);
 
 	return 0;
 }
@@ -131,19 +132,46 @@ static int dev_release(struct inode *inode, struct file *file)
 static long dev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 {
     struct my_driver_data *drvdata = (struct my_driver_data*)file->private_data;
-    void __iomem *virt_addr = drvdata->virt_addr;
 
     switch (cmd) {
         case MY_IOCTL_GET_VIRT_ADDR:
-            if (copy_to_user((void __user *)arg, &virt_addr, sizeof(virt_addr)))
+		{
+            if (copy_to_user((void __user *)arg, &drvdata->virt_addr, sizeof(drvdata->virt_addr)))
                 return -EFAULT;
-            break;
+			printk(KERN_INFO "%s: ioctl command MY_IOCTL_GET_VIRT_ADDR executed, virtual address 0x%x returned\n", DEVICE_NAME, (uint32_t)drvdata->virt_addr);
+		}
+		break;
 
         default:
             return -ENOTTY;
     }
 
     return 0;
+}
+
+static int dev_mmap(struct file *file, struct vm_area_struct *vma)
+{
+	struct my_driver_data *drvdata = (struct my_driver_data*)file->private_data;
+	unsigned long size = vma->vm_end - vma->vm_start;
+	unsigned long offset = vma->vm_pgoff << PAGE_SHIFT;
+
+	if (offset + size > MEM_SIZE)
+	{
+		printk(KERN_INFO "%s: mmap request exceeds memory region\n", DEVICE_NAME);
+		return -EINVAL;
+	}
+
+	vma->vm_page_prot = pgprot_noncached(vma->vm_page_prot);
+
+	if (remap_pfn_range(vma, vma->vm_start, (PHYS_ADDR + offset) >> PAGE_SHIFT, size, vma->vm_page_prot))
+	{
+		printk(KERN_INFO "%s: failed to remap page\n", DEVICE_NAME);
+		return -EAGAIN;
+	}
+
+	printk(KERN_INFO "%s: mmap successful, mapped address 0x%lx to virtual address 0x%x\n", DEVICE_NAME, PHYS_ADDR + offset, (uint32_t)vma->vm_start);
+
+	return 0;
 }
 
 static struct of_device_id sandpiper_of_match[] = {
