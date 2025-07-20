@@ -142,7 +142,7 @@ static int dev_open(struct inode *inode, struct file *file)
     struct my_driver_data *drvdata = container_of(inode->i_cdev, struct my_driver_data, cdev);
     file->private_data = drvdata;
 
-	printk(KERN_INFO "%s: device opened, virtual memory at 0x%x\n", DEVICE_NAME, (uint32_t)drvdata->video_ctl);
+	printk(KERN_INFO "%s: device opened, video control at 0x%x, audio control at 0x%x\n", DEVICE_NAME, (uint32_t)drvdata->video_ctl, (uint32_t)drvdata->audio_ctl);
 
 	return 0;
 }
