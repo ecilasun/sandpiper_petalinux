@@ -28,7 +28,7 @@
    };
 
    reserved-driver@0 {
-      compatible = "xlnx,reserved-memory";
+      compatible = "sandpiper";
       memory-region = <&reserved>;
    };
 

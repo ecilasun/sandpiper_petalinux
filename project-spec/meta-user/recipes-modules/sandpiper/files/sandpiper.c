@@ -9,6 +9,7 @@
 #include <linux/cdev.h>
 #include <linux/uaccess.h>
 #include <linux/ioctl.h>
+#include <linux/of.h>
 
 // Reserved memory region start
 #define PHYS_ADDR 0x18000000
@@ -46,17 +47,20 @@ static int sandpiper_probe(struct platform_device *pdev)
 
     drvdata = devm_kzalloc(&pdev->dev, sizeof(struct my_driver_data), GFP_KERNEL);
     if (!drvdata)
+	{
+		printk(KERN_INFO "%s: failed to allocate memory for driver data\n", DEVICE_NAME);
         return -ENOMEM;
+	}
 
     drvdata->virt_addr = ioremap(PHYS_ADDR, MEM_SIZE);
     if (!drvdata->virt_addr) {
-        dev_err(&pdev->dev, "ioremap failed\n");
+        printk(KERN_INFO "%s: ioremap failed\n", DEVICE_NAME);
         return -ENOMEM;
     }
 
     ret = alloc_chrdev_region(&dev_num, 0, 1, DEVICE_NAME);
     if (ret < 0) {
-        dev_err(&pdev->dev, "Failed to allocate character device region\n");
+        printk(KERN_INFO "%s: failed to allocate character device region\n", DEVICE_NAME);
         iounmap(drvdata->virt_addr);
         return ret;
     }
@@ -66,7 +70,7 @@ static int sandpiper_probe(struct platform_device *pdev)
 
     ret = cdev_add(&drvdata->cdev, dev_num, 1);
     if (ret < 0) {
-        dev_err(&pdev->dev, "Failed to add character device\n");
+        printk(KERN_INFO "%s: failed to add character device\n", DEVICE_NAME);
         unregister_chrdev_region(dev_num, 1);
         iounmap(drvdata->virt_addr);
         return ret;
@@ -74,7 +78,7 @@ static int sandpiper_probe(struct platform_device *pdev)
 
     drvdata->device = device_create(class_create(DEVICE_NAME), NULL, dev_num, NULL, DEVICE_NAME);
     if (IS_ERR(drvdata->device)) {
-        dev_err(&pdev->dev, "Failed to create device\n");
+        printk(KERN_INFO "%s: failed to create device\n", DEVICE_NAME);
 
 		cdev_del(&drvdata->cdev);
         unregister_chrdev_region(dev_num, 1);
@@ -85,8 +89,8 @@ static int sandpiper_probe(struct platform_device *pdev)
 
     platform_set_drvdata(pdev, drvdata);
 
-    dev_info(&pdev->dev, "Physical address 0x%x mapped to virtual address 0x%p\n", PHYS_ADDR, drvdata->virt_addr);
-    dev_info(&pdev->dev, "Character device /dev/%s created\n", DEVICE_NAME);
+    printk(KERN_INFO "%s: physical address 0x%x mapped to virtual address 0x%p\n", DEVICE_NAME, PHYS_ADDR, drvdata->virt_addr);
+    printk(KERN_INFO "%s: character device /dev/%s created\n", DEVICE_NAME, DEVICE_NAME);
 
     return 0;
 }
@@ -102,21 +106,24 @@ static void sandpiper_remove(struct platform_device *pdev)
     unregister_chrdev_region(drvdata->cdev.dev, 1);
     iounmap(drvdata->virt_addr);
 
-    dev_info(&pdev->dev, "Virtual address unmapped and character device removed\n");
+    printk(KERN_INFO "%s: virtual address unmapped and character device removed\n", DEVICE_NAME);
 }
 
 static int dev_open(struct inode *inode, struct file *file)
 {
     struct my_driver_data *drvdata = container_of(inode->i_cdev, struct my_driver_data, cdev);
     file->private_data = drvdata;
-    printk(KERN_INFO "%s: Device opened\n", DEVICE_NAME);
-    return 0;
+
+	printk(KERN_INFO "%s: device opened\n", DEVICE_NAME);
+
+	return 0;
 }
 
 static int dev_release(struct inode *inode, struct file *file)
 {
-    printk(KERN_INFO "%s: Device released\n", DEVICE_NAME);
-    return 0;
+    printk(KERN_INFO "%s: device released\n", DEVICE_NAME);
+
+	return 0;
 }
 
 static long dev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
@@ -137,26 +144,40 @@ static long dev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
     return 0;
 }
 
+static struct of_device_id sandpiper_of_match[] = {
+	{ .compatible = "sandpiper", },
+	{0},
+};
+MODULE_DEVICE_TABLE(of, sandpiper_of_match);
+
 static struct platform_driver sandpiper_driver = {
 	.probe		= sandpiper_probe,
 	.remove		= sandpiper_remove,
 	.driver = {
-		.name = "sandpiperdevice",
+		.name = "sandpiper",
 		.owner = THIS_MODULE,
+		.of_match_table = sandpiper_of_match,
 	},
 };
 
 static int __init sandpiper_init(void)
 {
-	printk("<1>sandpiper alive\n");
-	return platform_driver_register(&sandpiper_driver);
+	int res = platform_driver_register(&sandpiper_driver);
+	if (res < 0)
+	{
+		printk(KERN_ERR "%s: failed to register driver\n", DEVICE_NAME);
+		return -ENODEV;
+	}
+  
+	printk(KERN_INFO "%s: alive\n", DEVICE_NAME);
+	return 0;
 }
 
 
 static void __exit sandpiper_exit(void)
 {
 	platform_driver_unregister(&sandpiper_driver);
-	printk(KERN_ALERT "sandpiper retired\n");
+	printk(KERN_ALERT "%s: retired\n", DEVICE_NAME);
 }
 
 module_init(sandpiper_init);
@@ -164,4 +185,4 @@ module_exit(sandpiper_exit);
 
 MODULE_LICENSE("GPL");
 MODULE_AUTHOR("Engin Cilasun");
-MODULE_DESCRIPTION("sandpiper - system driver for sandpiper device");
+MODULE_DESCRIPTION("system driver for sandpiper device");
