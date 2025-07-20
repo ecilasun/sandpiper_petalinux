@@ -18,8 +18,10 @@
 #define VIDEO_CTRL_REGS_ADDR 0x40000000
 #define AUDIO_CTRL_REGS_ADDR 0x40001000
 
-// 32Mbytes of reserved memory
-#define MEM_SIZE 0x2000000
+// 32Mbytes reserved for device access
+#define RESERVED_MEMORY_SIZE	0x2000000
+// Device region of access
+#define DEVICE_MEMORY_SIZE		0x1000
 
 // Character device name
 #define DEVICE_NAME "sandpiper"
@@ -61,13 +63,13 @@ static int sandpiper_probe(struct platform_device *pdev)
         return -ENOMEM;
 	}
 
-    drvdata->video_ctl = ioremap(VIDEO_CTRL_REGS_ADDR, MEM_SIZE);
+    drvdata->video_ctl = ioremap(VIDEO_CTRL_REGS_ADDR, DEVICE_MEMORY_SIZE);
     if (!drvdata->video_ctl) {
         printk(KERN_INFO "%s: video control register ioremap failed\n", DEVICE_NAME);
         return -ENOMEM;
     }
 
-    drvdata->audio_ctl = ioremap(AUDIO_CTRL_REGS_ADDR, MEM_SIZE);
+    drvdata->audio_ctl = ioremap(AUDIO_CTRL_REGS_ADDR, DEVICE_MEMORY_SIZE);
     if (!drvdata->audio_ctl) {
         printk(KERN_INFO "%s: audio control register ioremap failed\n", DEVICE_NAME);
         iounmap(drvdata->video_ctl);
@@ -180,7 +182,7 @@ static int dev_mmap(struct file *file, struct vm_area_struct *vma)
 	unsigned long size = vma->vm_end - vma->vm_start;
 	unsigned long offset = vma->vm_pgoff << PAGE_SHIFT;
 
-	if (offset + size > MEM_SIZE)
+	if (offset + size > RESERVED_MEMORY_SIZE)
 	{
 		printk(KERN_INFO "%s: mmap request exceeds memory region\n", DEVICE_NAME);
 		return -EINVAL;
