@@ -12,7 +12,9 @@
 #include <linux/of.h>
 
 // Reserved memory region start
-#define PHYS_ADDR 0x18000000
+//#define PHYS_ADDR 0x18000000
+// Reserved memory region skipping the frame buffer
+#define PHYS_ADDR 0x18096000
 // 32Mbytes of reserved memory
 #define MEM_SIZE 0x2000000
 
