@@ -1,5 +1,5 @@
 PETALINUX_VER=2025.1
-VALIDATE_HW_CHKSUM=1
 HARDWARE_PATH=/home/ecilasun/sandpiper_petalinux/blockone_wrapper.xsa
 HDF_EXT=xsa
+VALIDATE_HW_CHKSUM=1
 YOCTO_SDK=a6136e328eca279b99669c1f4c28476553dcbedfd06649fd3dba55b83fbc8491
