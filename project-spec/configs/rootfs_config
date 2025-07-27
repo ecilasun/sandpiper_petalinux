@@ -657,7 +657,7 @@ CONFIG_nfs-utils=y
 #
 # git 
 #
-# CONFIG_git is not set
+CONFIG_git=y
 # CONFIG_git-bash-completion is not set
 # CONFIG_gitweb is not set
 # CONFIG_git-perltools is not set
