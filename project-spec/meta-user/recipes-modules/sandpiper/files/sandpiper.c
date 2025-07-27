@@ -239,7 +239,7 @@ static int dev_mmap(struct file *file, struct vm_area_struct *vma)
 		return -EAGAIN;
 	}
 
-	printk(KERN_INFO "%s: mmap successful, mapped physical address 0x%lx to virtual address 0x%x\n", DEVICE_NAME, physical_addr, (uint32_t)vma->vm_start);
+	//printk(KERN_INFO "%s: mmap successful, mapped physical address 0x%lx to virtual address 0x%x\n", DEVICE_NAME, physical_addr, (uint32_t)vma->vm_start);
 
 	return 0;
 }
