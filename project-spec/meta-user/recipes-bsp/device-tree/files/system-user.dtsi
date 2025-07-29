@@ -42,6 +42,7 @@
 };
 
 &usb0 {
+   status = "okay";
    dr_mode = "host";
    usb-phy = <&usb_phy0>;
 };
