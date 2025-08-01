@@ -27,12 +27,12 @@
 #define DEVICE_NAME "sandpiper"
 
 // IOCTL command definition
-#define MY_IOCTL_GET_VIDEO_CTL _IOR('k', 0, void*)
-#define MY_IOCTL_GET_AUDIO_CTL _IOR('k', 1, void*)
-#define SP_IOCTL_AUDIO_READ _IOR('k', 2, uint32_t*)
-#define SP_IOCTL_AUDIO_WRITE _IOW('k', 3, uint32_t*)
-#define SP_IOCTL_VIDEO_READ _IOR('k', 4, uint32_t*)
-#define SP_IOCTL_VIDEO_WRITE _IOW('k', 5, uint32_t*)
+#define MY_IOCTL_GET_VIDEO_CTL	_IOR('k', 0, void*)
+#define MY_IOCTL_GET_AUDIO_CTL	_IOR('k', 1, void*)
+#define SP_IOCTL_AUDIO_READ		_IOR('k', 2, uint32_t*)
+#define SP_IOCTL_AUDIO_WRITE	_IOW('k', 3, uint32_t*)
+#define SP_IOCTL_VIDEO_READ		_IOR('k', 4, uint32_t*)
+#define SP_IOCTL_VIDEO_WRITE	_IOW('k', 5, uint32_t*)
 
 struct my_driver_data {
 	volatile uint32_t *audio_ctl;	// User side code has to mmap this address when accessing audio control registers
@@ -78,8 +78,6 @@ static int sandpiper_probe(struct platform_device *pdev)
 		printk(KERN_INFO "%s: failed to map video control registers\n", DEVICE_NAME);
 		return -ENOMEM;
 	}
-
-	drvdata->video_ctl = ioremap(VIDEO_CTRL_REGS_ADDR, DEVICE_MEMORY_SIZE);
 
     ret = alloc_chrdev_region(&dev_num, 0, 1, DEVICE_NAME);
     if (ret < 0) {
@@ -166,7 +164,7 @@ static long dev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 
 		case SP_IOCTL_AUDIO_READ:
 		{
-			uint32_t value = *(uint32_t*)(drvdata->audio_ctl);
+			uint32_t value = ioread32((volatile uint32_t*)(drvdata->audio_ctl));
 			if (copy_to_user((void __user *)arg, &value, sizeof(value)))
 				return -EFAULT;
 		}
@@ -177,13 +175,13 @@ static long dev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 			uint32_t value;
 			if (copy_from_user(&value, (void __user *)arg, sizeof(value)))
 				return -EFAULT;
-			*(volatile uint32_t*)(drvdata->audio_ctl)= value;
+			iowrite32(value, (volatile uint32_t*)(drvdata->audio_ctl));
 		}
 		break;
 
 		case SP_IOCTL_VIDEO_READ:
 		{
-			uint32_t value = *(uint32_t*)(drvdata->video_ctl);
+			uint32_t value = ioread32((volatile uint32_t*)(drvdata->video_ctl));
 			if (copy_to_user((void __user *)arg, &value, sizeof(value)))
 				return -EFAULT;
 		}
@@ -194,7 +192,7 @@ static long dev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 			uint32_t value;
 			if (copy_from_user(&value, (void __user *)arg, sizeof(value)))
 				return -EFAULT;
-			*(volatile uint32_t*)(drvdata->video_ctl)= value;
+			iowrite32(value, (volatile uint32_t*)(drvdata->video_ctl));
 		}
 		break;
 
