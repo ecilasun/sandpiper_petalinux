@@ -67,8 +67,19 @@ static int sandpiper_probe(struct platform_device *pdev)
         return -ENOMEM;
 	}
 
-    drvdata->audio_ctl = (volatile uint32_t *)AUDIO_CTRL_REGS_ADDR;
-	drvdata->video_ctl = (volatile uint32_t *)VIDEO_CTRL_REGS_ADDR;
+	drvdata->audio_ctl = ioremap(AUDIO_CTRL_REGS_ADDR, DEVICE_MEMORY_SIZE);
+	if (!drvdata->audio_ctl) {
+		printk(KERN_INFO "%s: failed to map audio control registers\n", DEVICE_NAME);
+		return -ENOMEM;
+	}
+
+	drvdata->video_ctl = ioremap(VIDEO_CTRL_REGS_ADDR, DEVICE_MEMORY_SIZE);
+	if (!drvdata->video_ctl) {
+		printk(KERN_INFO "%s: failed to map video control registers\n", DEVICE_NAME);
+		return -ENOMEM;
+	}
+
+	drvdata->video_ctl = ioremap(VIDEO_CTRL_REGS_ADDR, DEVICE_MEMORY_SIZE);
 
     ret = alloc_chrdev_region(&dev_num, 0, 1, DEVICE_NAME);
     if (ret < 0) {
@@ -112,6 +123,9 @@ static void sandpiper_remove(struct platform_device *pdev)
 
     device_destroy(class_create(DEVICE_NAME), MKDEV(MAJOR(drvdata->cdev.dev), MINOR(drvdata->cdev.dev)));
     class_destroy(class_create(DEVICE_NAME));
+
+	iounmap(drvdata->video_ctl);
+	iounmap(drvdata->audio_ctl);
 
     cdev_del(&drvdata->cdev);
     unregister_chrdev_region(drvdata->cdev.dev, 1);
