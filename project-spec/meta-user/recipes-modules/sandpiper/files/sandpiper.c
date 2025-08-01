@@ -219,24 +219,6 @@ static int dev_mmap(struct file *file, struct vm_area_struct *vma)
 			return -EINVAL;
 		}
 	}
-	else if (offset == AUDIO_CTRL_REGS_ADDR)
-	{
-		physical_addr = AUDIO_CTRL_REGS_ADDR;
-		if (size > DEVICE_MEMORY_SIZE)
-		{
-			printk(KERN_INFO "%s: mmap request exceeds memory region\n", DEVICE_NAME);
-			return -EINVAL;
-		}
-	}
-	else if (offset == VIDEO_CTRL_REGS_ADDR)
-	{
-		physical_addr = VIDEO_CTRL_REGS_ADDR;
-		if (size > DEVICE_MEMORY_SIZE)
-		{
-			printk(KERN_INFO "%s: mmap request exceeds memory region\n", DEVICE_NAME);
-			return -EINVAL;
-		}
-	}
 	else
 	{
 		printk(KERN_INFO "%s: invalid mmap offset 0x%lx\n", DEVICE_NAME, offset);
