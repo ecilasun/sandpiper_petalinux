@@ -33,6 +33,8 @@
 #define SP_IOCTL_AUDIO_WRITE	_IOW('k', 3, uint32_t*)
 #define SP_IOCTL_VIDEO_READ		_IOR('k', 4, uint32_t*)
 #define SP_IOCTL_VIDEO_WRITE	_IOW('k', 5, uint32_t*)
+#define SP_IOCTL_AUDIO_READHI	_IOR('k', 6, uint32_t*)
+#define SP_IOCTL_VIDEO_READHI	_IOR('k', 7, uint32_t*)
 
 struct my_driver_data {
 	volatile uint32_t *audio_ctl;	// User side code has to mmap this address when accessing audio control registers
@@ -170,6 +172,14 @@ static long dev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 		}
 		break;
 
+		case SP_IOCTL_AUDIO_READHI:
+		{
+			uint32_t value = ioread32((volatile uint32_t*)(drvdata->audio_ctl + 1));
+			if (copy_to_user((void __user *)arg, &value, sizeof(value)))
+				return -EFAULT;
+		}
+		break;
+
 		case SP_IOCTL_AUDIO_WRITE:
 		{
 			uint32_t value;
@@ -182,6 +192,14 @@ static long dev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 		case SP_IOCTL_VIDEO_READ:
 		{
 			uint32_t value = ioread32((volatile uint32_t*)(drvdata->video_ctl));
+			if (copy_to_user((void __user *)arg, &value, sizeof(value)))
+				return -EFAULT;
+		}
+		break;
+
+		case SP_IOCTL_VIDEO_READHI:
+		{
+			uint32_t value = ioread32((volatile uint32_t*)(drvdata->video_ctl + 1));
 			if (copy_to_user((void __user *)arg, &value, sizeof(value)))
 				return -EFAULT;
 		}
