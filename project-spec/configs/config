@@ -156,7 +156,7 @@ CONFIG_SUBSYSTEM_UBOOT_CONFIG_TARGET="xilinx_zynq_virt_defconfig"
 # u-boot script configuration
 #
 CONFIG_SUBSYSTEM_UBOOT_APPEND_BASEADDR=y
-CONFIG_SUBSYSTEM_UBOOT_PRE_BOOTENV=""
+CONFIG_SUBSYSTEM_UBOOT_PRE_BOOTENV="setenv verify no; fatload mmc 0:1 0x18000000 splash.bin;setenv verify yes"
 
 #
 # JTAG/DDR image offsets
