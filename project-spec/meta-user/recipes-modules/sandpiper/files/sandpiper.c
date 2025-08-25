@@ -17,6 +17,7 @@
 // Control registers physical address
 #define AUDIO_CTRL_REGS_ADDR 0x40000000
 #define VIDEO_CTRL_REGS_ADDR 0x40001000
+#define PALETTE_CTRL_REGS_ADDR 0x40002000
 
 // 32Mbytes reserved for device access
 #define RESERVED_MEMORY_SIZE	0x2000000
@@ -27,18 +28,26 @@
 #define DEVICE_NAME "sandpiper"
 
 // IOCTL command definition
-#define MY_IOCTL_GET_VIDEO_CTL	_IOR('k', 0, void*)
-#define MY_IOCTL_GET_AUDIO_CTL	_IOR('k', 1, void*)
-#define SP_IOCTL_AUDIO_READ		_IOR('k', 2, uint32_t*)
-#define SP_IOCTL_AUDIO_WRITE	_IOW('k', 3, uint32_t*)
-#define SP_IOCTL_VIDEO_READ		_IOR('k', 4, uint32_t*)
-#define SP_IOCTL_VIDEO_WRITE	_IOW('k', 5, uint32_t*)
-#define SP_IOCTL_AUDIO_READHI	_IOR('k', 6, uint32_t*)
-#define SP_IOCTL_VIDEO_READHI	_IOR('k', 7, uint32_t*)
+#define SP_IOCTL_GET_VIDEO_CTL		_IOR('k', 0, void*)
+#define SP_IOCTL_GET_AUDIO_CTL		_IOR('k', 1, void*)
+#define SP_IOCTL_GET_PALETTE_CTL	_IOR('k', 2, void*)
+#define SP_IOCTL_AUDIO_READ			_IOR('k', 3, void*)
+#define SP_IOCTL_AUDIO_WRITE		_IOW('k', 4, void*)
+#define SP_IOCTL_VIDEO_READ			_IOR('k', 5, void*)
+#define SP_IOCTL_VIDEO_WRITE		_IOW('k', 6, void*)
+#define SP_IOCTL_PALETTE_READ		_IOR('k', 9, void*)
+#define SP_IOCTL_PALETTE_WRITE		_IOW('k', 10, void*)
+
+struct SPIoctl
+{
+	uint32_t offset;	// Offset within the control register
+	uint32_t value;		// Value read or value to write
+};
 
 struct my_driver_data {
 	volatile uint32_t *audio_ctl;	// User side code has to mmap this address when accessing audio control registers
 	volatile uint32_t *video_ctl;	// User side code has to mmap this address when accessing video control registers
+	volatile uint32_t *palette_ctl;	// User side code has to mmap this address when accessing palette registers
     struct cdev cdev;
     struct device *device;
 };
@@ -81,6 +90,12 @@ static int sandpiper_probe(struct platform_device *pdev)
 		return -ENOMEM;
 	}
 
+	drvdata->palette_ctl = ioremap(PALETTE_CTRL_REGS_ADDR, DEVICE_MEMORY_SIZE);
+	if (!drvdata->palette_ctl) {
+		printk(KERN_INFO "%s: failed to map palette registers\n", DEVICE_NAME);
+		return -ENOMEM;
+	}
+
     ret = alloc_chrdev_region(&dev_num, 0, 1, DEVICE_NAME);
     if (ret < 0) {
         printk(KERN_INFO "%s: failed to allocate character device region\n", DEVICE_NAME);
@@ -112,6 +127,7 @@ static int sandpiper_probe(struct platform_device *pdev)
 
     printk(KERN_INFO "%s: audio control registers at 0x%x\n", DEVICE_NAME, (uint32_t)drvdata->audio_ctl);
     printk(KERN_INFO "%s: video control registers at 0x%x\n", DEVICE_NAME, (uint32_t)drvdata->video_ctl);
+	printk(KERN_INFO "%s: palette registers at 0x%x\n", DEVICE_NAME, (uint32_t)drvdata->palette_ctl);
 	printk(KERN_INFO "%s: character device /dev/%s created\n", DEVICE_NAME, DEVICE_NAME);
 
     return 0;
@@ -126,6 +142,7 @@ static void sandpiper_remove(struct platform_device *pdev)
 
 	iounmap(drvdata->video_ctl);
 	iounmap(drvdata->audio_ctl);
+	iounmap(drvdata->palette_ctl);
 
     cdev_del(&drvdata->cdev);
     unregister_chrdev_region(drvdata->cdev.dev, 1);
@@ -149,68 +166,62 @@ static long dev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 {
     struct my_driver_data *drvdata = (struct my_driver_data*)file->private_data;
 
+	struct SPIoctl ioctl_data;
+	// Copy data from user space
+	copy_from_user(&ioctl_data, (void __user *)arg, sizeof(ioctl_data));
+
     switch (cmd) {
-        case MY_IOCTL_GET_VIDEO_CTL:
+        case SP_IOCTL_GET_VIDEO_CTL:
 		{
-            if (copy_to_user((void __user *)arg, &drvdata->video_ctl, sizeof(drvdata->video_ctl)))
-                return -EFAULT;
+			ioctl_data.value = drvdata->video_ctl;
 		}
 		break;
 
-		case MY_IOCTL_GET_AUDIO_CTL:
+		case SP_IOCTL_GET_AUDIO_CTL:
 		{
-            if (copy_to_user((void __user *)arg, &drvdata->audio_ctl, sizeof(drvdata->audio_ctl)))
-                return -EFAULT;
+			ioctl_data.value = drvdata->audio_ctl;
+		}
+		break;
+
+		case SP_IOCTL_GET_PALETTE_CTL:
+		{
+			ioctl_data.value = drvdata->palette_ctl;
 		}
 		break;
 
 		case SP_IOCTL_AUDIO_READ:
 		{
-			uint32_t value = ioread32((volatile uint32_t*)(drvdata->audio_ctl));
-			if (copy_to_user((void __user *)arg, &value, sizeof(value)))
-				return -EFAULT;
-		}
-		break;
-
-		case SP_IOCTL_AUDIO_READHI:
-		{
-			uint32_t value = ioread32((volatile uint32_t*)(drvdata->audio_ctl + 1));
-			if (copy_to_user((void __user *)arg, &value, sizeof(value)))
-				return -EFAULT;
+			ioctl_data.value = ioread32((volatile uint32_t*)(drvdata->audio_ctl + ioctl_data.offset));
 		}
 		break;
 
 		case SP_IOCTL_AUDIO_WRITE:
 		{
-			uint32_t value;
-			if (copy_from_user(&value, (void __user *)arg, sizeof(value)))
-				return -EFAULT;
-			iowrite32(value, (volatile uint32_t*)(drvdata->audio_ctl));
+			iowrite32(ioctl_data.value, (volatile uint32_t*)(drvdata->audio_ctl + ioctl_data.offset));
 		}
 		break;
 
 		case SP_IOCTL_VIDEO_READ:
 		{
-			uint32_t value = ioread32((volatile uint32_t*)(drvdata->video_ctl));
-			if (copy_to_user((void __user *)arg, &value, sizeof(value)))
-				return -EFAULT;
-		}
-		break;
-
-		case SP_IOCTL_VIDEO_READHI:
-		{
-			uint32_t value = ioread32((volatile uint32_t*)(drvdata->video_ctl + 1));
-			if (copy_to_user((void __user *)arg, &value, sizeof(value)))
-				return -EFAULT;
+			ioctl_data.value = ioread32((volatile uint32_t*)(drvdata->video_ctl + ioctl_data.offset));
 		}
 		break;
 
 		case SP_IOCTL_VIDEO_WRITE:
 		{
-			uint32_t value;
-			if (copy_from_user(&value, (void __user *)arg, sizeof(value)))
-				return -EFAULT;
-			iowrite32(value, (volatile uint32_t*)(drvdata->video_ctl));
+			iowrite32(ioctl_data.value, (volatile uint32_t*)(drvdata->video_ctl + ioctl_data.offset));
+		}
+		break;
+
+		case SP_IOCTL_PALETTE_READ:
+		{
+			ioctl_data.value = ioread32((volatile uint32_t*)(drvdata->palette_ctl + ioctl_data.offset));
+		}
+		break;
+
+		case SP_IOCTL_PALETTE_WRITE:
+		{
+			iowrite32(ioctl_data.value, (volatile uint32_t*)(drvdata->palette_ctl + ioctl_data.offset));
 		}
 		break;
 
@@ -218,12 +229,15 @@ static long dev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
             return -ENOTTY;
     }
 
+	// Copy the ioctl_data structure back to user space
+	copy_to_user((void __user *)arg, &ioctl_data, sizeof(ioctl_data));
+
     return 0;
 }
 
 static int dev_mmap(struct file *file, struct vm_area_struct *vma)
 {
-	struct my_driver_data *drvdata = (struct my_driver_data*)file->private_data;
+	//struct my_driver_data *drvdata = (struct my_driver_data*)file->private_data;
 	unsigned long size = vma->vm_end - vma->vm_start;
 	unsigned long offset = vma->vm_pgoff << PAGE_SHIFT;
 	unsigned long physical_addr = 0;
