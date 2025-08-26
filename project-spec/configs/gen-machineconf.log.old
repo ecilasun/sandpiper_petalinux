@@ -1,10 +1,10 @@
-2025-08-25 21:01:40,714 - [DEBUG] Using xsct from : /home/ecilasun/petalinux2025_1/components/xsct/bin/xsct
-2025-08-25 21:01:40,714 - [INFO] Getting Platform info from HW file
-2025-08-25 21:01:40,714 - [DEBUG] Using the soc_family specified by user:zynq
-2025-08-25 21:01:40,715 - [INFO] Generating Kconfig for project
-2025-08-25 21:01:40,715 - [DEBUG] Generating System HW file
-2025-08-25 21:01:40,715 - [DEBUG] xsct -sdx -nodisp /home/ecilasun/sandpiper_petalinux/components/yocto/layers/meta-xilinx/meta-xilinx-core/gen-machine-conf/gen-machine-scripts/hw-description.tcl plnx_gen_hwsysconf /home/ecilasun/sandpiper_petalinux/project-spec/hw-description/system.xsa
-2025-08-25 21:01:47,074 - [DEBUG] 
+2025-08-26 02:05:56,019 - [DEBUG] Using xsct from : /home/ecilasun/petalinux2025_1/components/xsct/bin/xsct
+2025-08-26 02:05:56,019 - [INFO] Getting Platform info from HW file
+2025-08-26 02:05:56,019 - [DEBUG] Using the soc_family specified by user:zynq
+2025-08-26 02:05:56,019 - [INFO] Generating Kconfig for project
+2025-08-26 02:05:56,019 - [DEBUG] Generating System HW file
+2025-08-26 02:05:56,019 - [DEBUG] xsct -sdx -nodisp /home/ecilasun/sandpiper_petalinux/components/yocto/layers/meta-xilinx/meta-xilinx-core/gen-machine-conf/gen-machine-scripts/hw-description.tcl plnx_gen_hwsysconf /home/ecilasun/sandpiper_petalinux/project-spec/hw-description/system.xsa
+2025-08-26 02:06:02,286 - [DEBUG] 
 
 ****** Software Commandline Tool (XSCT) v2025.1.0
   **** SW Build 6135694 on Thu May 15 18:54:54 MDT 2025
@@ -23,16 +23,16 @@ INFO: [Hsi 55-2053] elapsed time for repository (/home/ecilasun/petalinux2025_1/
 WARNING: Failed in finding /home/ecilasun/petalinux2025_1/components/xsct/data/system-device-tree-xlnx/device_tree/data/device_tree.tcl path.
 
 
-2025-08-25 21:01:47,139 - [DEBUG] Hardware Configuration:
-2025-08-25 21:01:47,139 - [DEBUG] MACHINE     = "None"
-2025-08-25 21:01:47,139 - [DEBUG] DEVICE_ID   = "7z020"
-2025-08-25 21:01:47,139 - [DEBUG] SOC_FAMILY  = "zynq"
-2025-08-25 21:01:47,139 - [DEBUG] SOC_VARIANT = ""
-2025-08-25 21:01:47,139 - [INFO] Menuconfig project
-2025-08-25 21:01:47,139 - [DEBUG] Running CMD: env KCONFIG_CONFIG=/home/ecilasun/sandpiper_petalinux/project-spec/configs/config mconf -s /home/ecilasun/sandpiper_petalinux/project-spec/configs/configs/Kconfig
-2025-08-25 21:01:49,315 - [INFO] Silentconfig rootfs
-2025-08-25 21:01:49,315 - [DEBUG] Running CMD: yes "" | env KCONFIG_CONFIG=/home/ecilasun/sandpiper_petalinux/project-spec/configs/rootfs_config conf /home/ecilasun/sandpiper_petalinux/project-spec/configs/rootfsconfigs/Kconfig
-2025-08-25 21:01:49,327 - [DEBUG] *
+2025-08-26 02:06:02,350 - [DEBUG] Hardware Configuration:
+2025-08-26 02:06:02,350 - [DEBUG] MACHINE     = "None"
+2025-08-26 02:06:02,350 - [DEBUG] DEVICE_ID   = "7z020"
+2025-08-26 02:06:02,351 - [DEBUG] SOC_FAMILY  = "zynq"
+2025-08-26 02:06:02,351 - [DEBUG] SOC_VARIANT = ""
+2025-08-26 02:06:02,351 - [INFO] Menuconfig project
+2025-08-26 02:06:02,351 - [DEBUG] Running CMD: env KCONFIG_CONFIG=/home/ecilasun/sandpiper_petalinux/project-spec/configs/config mconf -s /home/ecilasun/sandpiper_petalinux/project-spec/configs/configs/Kconfig
+2025-08-26 02:06:05,392 - [INFO] Silentconfig rootfs
+2025-08-26 02:06:05,392 - [DEBUG] Running CMD: yes "" | env KCONFIG_CONFIG=/home/ecilasun/sandpiper_petalinux/project-spec/configs/rootfs_config conf /home/ecilasun/sandpiper_petalinux/project-spec/configs/rootfsconfigs/Kconfig
+2025-08-26 02:06:05,404 - [DEBUG] *
 * Configuration
 *
 *
@@ -3313,7 +3313,7 @@ Add Users to Sudo users (ADD_USERS_TO_SUDOERS) [peta]
 #
 # configuration written to /home/ecilasun/sandpiper_petalinux/project-spec/configs/rootfs_config
 #
-2025-08-25 21:01:49,333 - [INFO] Generating configuration files
-2025-08-25 21:01:49,334 - [DEBUG] No multilibs enabled.
-2025-08-25 21:01:49,334 - [DEBUG] No multilibs enabled.
-2025-08-25 21:01:49,351 - [DEBUG] Shutting down bitbake
+2025-08-26 02:06:05,410 - [INFO] Generating configuration files
+2025-08-26 02:06:05,411 - [DEBUG] No multilibs enabled.
+2025-08-26 02:06:05,411 - [DEBUG] No multilibs enabled.
+2025-08-26 02:06:05,428 - [DEBUG] Shutting down bitbake
