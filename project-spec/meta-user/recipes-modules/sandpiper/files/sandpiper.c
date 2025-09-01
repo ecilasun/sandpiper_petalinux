@@ -15,9 +15,10 @@
 #define PHYS_ADDR 0x18000000
 
 // Control registers physical address
-#define AUDIO_CTRL_REGS_ADDR 0x40000000
-#define VIDEO_CTRL_REGS_ADDR 0x40001000
-#define PALETTE_CTRL_REGS_ADDR 0x40002000
+#define AUDIO_CTRL_REGS_ADDR	0x40000000
+#define VIDEO_CTRL_REGS_ADDR	0x40001000
+#define PALETTE_CTRL_REGS_ADDR	0x40002000
+#define VCP_CTRL_REGS_ADDR		0x40003000
 
 // 32Mbytes reserved for device access
 #define RESERVED_MEMORY_SIZE	0x2000000
@@ -35,8 +36,11 @@
 #define SP_IOCTL_AUDIO_WRITE		_IOW('k', 4, void*)
 #define SP_IOCTL_VIDEO_READ			_IOR('k', 5, void*)
 #define SP_IOCTL_VIDEO_WRITE		_IOW('k', 6, void*)
+#define SP_IOCTL_VCP_READ			_IOR('k', 7, void*)
+#define SP_IOCTL_VCP_WRITE			_IOW('k', 8, void*)
 #define SP_IOCTL_PALETTE_READ		_IOR('k', 9, void*)
 #define SP_IOCTL_PALETTE_WRITE		_IOW('k', 10, void*)
+#define SP_IOCTL_GET_VCP_CTL		_IOR('k', 11, void*)
 
 struct SPIoctl
 {
@@ -48,6 +52,7 @@ struct my_driver_data {
 	volatile uint32_t *audio_ctl;	// User side code has to mmap this address when accessing audio control registers
 	volatile uint32_t *video_ctl;	// User side code has to mmap this address when accessing video control registers
 	volatile uint32_t *palette_ctl;	// User side code has to mmap this address when accessing palette registers
+	volatile uint32_t *vcp_ctl;		// User side code has to mmap this address when accessing VCP control registers
     struct cdev cdev;
     struct device *device;
 };
@@ -96,6 +101,12 @@ static int sandpiper_probe(struct platform_device *pdev)
 		return -ENOMEM;
 	}
 
+	drvdata->vcp_ctl = ioremap(VCP_CTRL_REGS_ADDR, DEVICE_MEMORY_SIZE);
+	if (!drvdata->vcp_ctl) {
+		printk(KERN_INFO "%s: failed to map VCP control registers\n", DEVICE_NAME);
+		return -ENOMEM;
+	}
+
     ret = alloc_chrdev_region(&dev_num, 0, 1, DEVICE_NAME);
     if (ret < 0) {
         printk(KERN_INFO "%s: failed to allocate character device region\n", DEVICE_NAME);
@@ -128,6 +139,7 @@ static int sandpiper_probe(struct platform_device *pdev)
     printk(KERN_INFO "%s: audio control registers at 0x%x\n", DEVICE_NAME, (uint32_t)drvdata->audio_ctl);
     printk(KERN_INFO "%s: video control registers at 0x%x\n", DEVICE_NAME, (uint32_t)drvdata->video_ctl);
 	printk(KERN_INFO "%s: palette registers at 0x%x\n", DEVICE_NAME, (uint32_t)drvdata->palette_ctl);
+	printk(KERN_INFO "%s: VCP control registers at 0x%x\n", DEVICE_NAME, (uint32_t)drvdata->vcp_ctl);
 	printk(KERN_INFO "%s: character device /dev/%s created\n", DEVICE_NAME, DEVICE_NAME);
 
     return 0;
@@ -189,6 +201,12 @@ static long dev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 		}
 		break;
 
+		case SP_IOCTL_GET_VCP_CTL:
+		{
+			ioctl_data.value = drvdata->vcp_ctl;
+		}
+		break;
+
 		case SP_IOCTL_AUDIO_READ:
 		{
 			ioctl_data.value = ioread32((volatile uint32_t*)(drvdata->audio_ctl + ioctl_data.offset));
@@ -222,6 +240,18 @@ static long dev_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
 		case SP_IOCTL_PALETTE_WRITE:
 		{
 			iowrite32(ioctl_data.value, (volatile uint32_t*)(drvdata->palette_ctl + ioctl_data.offset));
+		}
+		break;
+
+		case SP_IOCTL_VCP_READ:
+		{
+			ioctl_data.value = ioread32((volatile uint32_t*)(drvdata->vcp_ctl + ioctl_data.offset));
+		}
+		break;
+
+		case SP_IOCTL_VCP_WRITE:
+		{
+			iowrite32(ioctl_data.value, (volatile uint32_t*)(drvdata->vcp_ctl + ioctl_data.offset));
 		}
 		break;
 
