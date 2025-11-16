@@ -1,16 +1,38 @@
-2025-11-15 04:30:06,233 - [DEBUG] Using xsct from : /home/ecilasun/petalinux20251/components/xsct/bin/xsct
-2025-11-15 04:30:06,233 - [INFO] Getting Platform info from HW file
-2025-11-15 04:30:06,233 - [DEBUG] Using the soc_family specified by user:zynq
-2025-11-15 04:30:06,238 - [DEBUG] Hardware Configuration:
-2025-11-15 04:30:06,238 - [DEBUG] MACHINE     = "None"
-2025-11-15 04:30:06,238 - [DEBUG] DEVICE_ID   = "7z020"
-2025-11-15 04:30:06,238 - [DEBUG] SOC_FAMILY  = "zynq"
-2025-11-15 04:30:06,238 - [DEBUG] SOC_VARIANT = ""
-2025-11-15 04:30:06,238 - [INFO] Menuconfig project
-2025-11-15 04:30:06,238 - [DEBUG] Running CMD: env KCONFIG_CONFIG=/home/ecilasun/repos/sandpiper_petalinux/project-spec/configs/config mconf -s /home/ecilasun/repos/sandpiper_petalinux/project-spec/configs/configs/Kconfig
-2025-11-15 04:30:07,835 - [INFO] Silentconfig rootfs
-2025-11-15 04:30:07,835 - [DEBUG] Running CMD: yes "" | env KCONFIG_CONFIG=/home/ecilasun/repos/sandpiper_petalinux/project-spec/configs/rootfs_config conf /home/ecilasun/repos/sandpiper_petalinux/project-spec/configs/rootfsconfigs/Kconfig
-2025-11-15 04:30:07,846 - [DEBUG] *
+2025-11-16 09:19:00,464 - [DEBUG] Using xsct from : /home/ecilasun/petalinux20251/components/xsct/bin/xsct
+2025-11-16 09:19:00,464 - [INFO] Getting Platform info from HW file
+2025-11-16 09:19:00,464 - [DEBUG] Using the soc_family specified by user:zynq
+2025-11-16 09:19:00,465 - [INFO] Generating Kconfig for project
+2025-11-16 09:19:00,465 - [DEBUG] Generating System HW file
+2025-11-16 09:19:00,465 - [DEBUG] xsct -sdx -nodisp /home/ecilasun/repos/sandpiper_petalinux/components/yocto/layers/meta-xilinx/meta-xilinx-core/gen-machine-conf/gen-machine-scripts/hw-description.tcl plnx_gen_hwsysconf /home/ecilasun/repos/sandpiper_petalinux/project-spec/hw-description/system.xsa
+2025-11-16 09:19:05,050 - [DEBUG] 
+
+****** Software Commandline Tool (XSCT) v2025.1.0
+  **** SW Build 6135694 on Thu May 15 18:54:54 MDT 2025
+    ** Copyright 1986-2022 Xilinx, Inc. All Rights Reserved.
+    ** Copyright 2022-2025 Advanced Micro Devices, Inc. All Rights Reserved.
+
+
+Warning: XSCT is deprecated and will be removed in future releases.
+We recommend using the new Python command-line tool for project management and debugging:
+- Run "vitis -i" for interactive mode.
+- Run "vitis -s <script>" for script mode.
+WARNING: sdtgen package cannot be loaded. System Device tree commands will not 
+ be available
+INFO: [Hsi 55-2053] elapsed time for repository (/home/ecilasun/petalinux20251/components/xsct/data/embeddedsw) loading 0 seconds
+
+WARNING: Failed in finding /home/ecilasun/petalinux20251/components/xsct/data/system-device-tree-xlnx/device_tree/data/device_tree.tcl path.
+
+
+2025-11-16 09:19:05,110 - [DEBUG] Hardware Configuration:
+2025-11-16 09:19:05,110 - [DEBUG] MACHINE     = "None"
+2025-11-16 09:19:05,110 - [DEBUG] DEVICE_ID   = "7z020"
+2025-11-16 09:19:05,110 - [DEBUG] SOC_FAMILY  = "zynq"
+2025-11-16 09:19:05,110 - [DEBUG] SOC_VARIANT = ""
+2025-11-16 09:19:05,110 - [INFO] Menuconfig project
+2025-11-16 09:19:05,110 - [DEBUG] Running CMD: env KCONFIG_CONFIG=/home/ecilasun/repos/sandpiper_petalinux/project-spec/configs/config mconf -s /home/ecilasun/repos/sandpiper_petalinux/project-spec/configs/configs/Kconfig
+2025-11-16 09:19:32,373 - [INFO] Silentconfig rootfs
+2025-11-16 09:19:32,373 - [DEBUG] Running CMD: yes "" | env KCONFIG_CONFIG=/home/ecilasun/repos/sandpiper_petalinux/project-spec/configs/rootfs_config conf /home/ecilasun/repos/sandpiper_petalinux/project-spec/configs/rootfsconfigs/Kconfig
+2025-11-16 09:19:32,384 - [DEBUG] *
 * Configuration
 *
 *
@@ -3291,7 +3313,7 @@ Add Users to Sudo users (ADD_USERS_TO_SUDOERS) [peta]
 #
 # configuration written to /home/ecilasun/repos/sandpiper_petalinux/project-spec/configs/rootfs_config
 #
-2025-11-15 04:30:07,849 - [INFO] Generating configuration files
-2025-11-15 04:30:07,850 - [DEBUG] No multilibs enabled.
-2025-11-15 04:30:07,850 - [DEBUG] No multilibs enabled.
-2025-11-15 04:30:07,858 - [DEBUG] Shutting down bitbake
+2025-11-16 09:19:32,388 - [INFO] Generating configuration files
+2025-11-16 09:19:32,389 - [DEBUG] No multilibs enabled.
+2025-11-16 09:19:32,389 - [DEBUG] No multilibs enabled.
+2025-11-16 09:19:32,397 - [DEBUG] Shutting down bitbake
