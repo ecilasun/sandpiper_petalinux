@@ -50,6 +50,23 @@ password: peta
 ```
 The default QUEMU emulator won't show video or have any functioning devices, but the sandpiper devide will be up and running since it's essentially just a memory mapper. Future versions will improve the experience and allow for device functionality as much as possible, by extending QEMU.
 
+5) Optionally, to build the petalinux SDK for sandpiper device, run the following script:
+```
+buildsdk.sh
+```
+Once you're done, run this to install it, from the images/linux folder:
+```
+sdk.sh
+```
+Use the default path for ease of use with the following script, which should be run before you build programs with this toolchain:
+```
+source /opt/petalinux/2025.1/environment-setup-cortexa9t2hf-neon-amd-linux-gnueabi
+```
+All the compilers in this path have the same prefix:
+```
+arm-amd-linux-gnueabi-*
+```
+
 # About Sandpiper
 
 Sandpiper is an interesting machine. It is a linux based small computer based around a Zynq 7020 SoC, with custom video and audio circuitry programmed into the FPGA fabric. A specialzed device driver allows access to a shared memory region and some control registers to control these video and audio devices.
