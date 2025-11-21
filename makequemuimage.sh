@@ -1,0 +1,3 @@
+petalinux-package --wic
+
+
