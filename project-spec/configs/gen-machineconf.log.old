@@ -1,14 +1,14 @@
-2025-11-21 02:23:22,933 - [DEBUG] Using xsct from : /home/ecilasun/petalinux20251/components/xsct/bin/xsct
-2025-11-21 02:23:22,933 - [INFO] Getting Platform info from HW file
-2025-11-21 02:23:22,933 - [DEBUG] Using the soc_family specified by user:zynq
-2025-11-21 02:23:22,938 - [DEBUG] Hardware Configuration:
-2025-11-21 02:23:22,938 - [DEBUG] MACHINE     = "None"
-2025-11-21 02:23:22,938 - [DEBUG] DEVICE_ID   = "7z020"
-2025-11-21 02:23:22,938 - [DEBUG] SOC_FAMILY  = "zynq"
-2025-11-21 02:23:22,938 - [DEBUG] SOC_VARIANT = ""
-2025-11-21 02:23:22,938 - [INFO] Silentconfig project
-2025-11-21 02:23:22,938 - [DEBUG] Running CMD: yes "" | env KCONFIG_CONFIG=/home/ecilasun/repos/sandpiper_petalinux/project-spec/configs/config conf /home/ecilasun/repos/sandpiper_petalinux/project-spec/configs/configs/Kconfig
-2025-11-21 02:23:22,941 - [DEBUG] *
+2025-11-22 21:13:26,040 - [DEBUG] Using xsct from : /home/ecilasun/petalinux20251/components/xsct/bin/xsct
+2025-11-22 21:13:26,040 - [INFO] Getting Platform info from HW file
+2025-11-22 21:13:26,040 - [DEBUG] Using the soc_family specified by user:zynq
+2025-11-22 21:13:26,045 - [DEBUG] Hardware Configuration:
+2025-11-22 21:13:26,045 - [DEBUG] MACHINE     = "None"
+2025-11-22 21:13:26,045 - [DEBUG] DEVICE_ID   = "7z020"
+2025-11-22 21:13:26,045 - [DEBUG] SOC_FAMILY  = "zynq"
+2025-11-22 21:13:26,045 - [DEBUG] SOC_VARIANT = ""
+2025-11-22 21:13:26,045 - [INFO] Silentconfig project
+2025-11-22 21:13:26,045 - [DEBUG] Running CMD: yes "" | env KCONFIG_CONFIG=/home/ecilasun/repos/sandpiper_petalinux/project-spec/configs/config conf /home/ecilasun/repos/sandpiper_petalinux/project-spec/configs/configs/Kconfig
+2025-11-22 21:13:26,049 - [DEBUG] *
 * PetaLinux System Configuration
 *
 ZYNQ Configuration (SYSTEM_ZYNQ) [Y/?] y
@@ -246,9 +246,9 @@ user layer 0 (USER_LAYER_0) []
 #
 # configuration written to /home/ecilasun/repos/sandpiper_petalinux/project-spec/configs/config
 #
-2025-11-21 02:23:22,958 - [INFO] Silentconfig rootfs
-2025-11-21 02:23:22,958 - [DEBUG] Running CMD: yes "" | env KCONFIG_CONFIG=/home/ecilasun/repos/sandpiper_petalinux/project-spec/configs/rootfs_config conf /home/ecilasun/repos/sandpiper_petalinux/project-spec/configs/rootfsconfigs/Kconfig
-2025-11-21 02:23:22,964 - [DEBUG] *
+2025-11-22 21:13:26,066 - [INFO] Silentconfig rootfs
+2025-11-22 21:13:26,066 - [DEBUG] Running CMD: yes "" | env KCONFIG_CONFIG=/home/ecilasun/repos/sandpiper_petalinux/project-spec/configs/rootfs_config conf /home/ecilasun/repos/sandpiper_petalinux/project-spec/configs/rootfsconfigs/Kconfig
+2025-11-22 21:13:26,074 - [DEBUG] *
 * Configuration
 *
 *
@@ -971,19 +971,19 @@ zip-dbg (zip-dbg) [N/y/?]
 *
 * autoconf 
 *
-autoconf (autoconf) [N/y/?] 
+autoconf (autoconf) [Y/n/?] 
 autoconf-dev (autoconf-dev) [N/y/?] 
 autoconf-dbg (autoconf-dbg) [N/y/?] 
 *
 * automake 
 *
-automake (automake) [N/y/?] 
+automake (automake) [Y/n/?] 
 automake-dev (automake-dev) [N/y/?] 
 automake-dbg (automake-dbg) [N/y/?] 
 *
 * binutils 
 *
-binutils (binutils) [N/y/?] 
+binutils (binutils) [Y/n/?] 
 binutils-dev (binutils-dev) [N/y/?] 
 binutils-dbg (binutils-dbg) [N/y/?] 
 *
@@ -1072,7 +1072,7 @@ lsof-dbg (lsof-dbg) [N/y/?]
 *
 * make 
 *
-make (make) [N/y/?] 
+make (make) [Y/n/?] 
 make-dbg (make-dbg) [N/y/?] 
 make-dev (make-dev) [N/y/?] 
 *
@@ -2170,7 +2170,7 @@ gcr-dbg (gcr-dbg) [N/y/?]
 *
 * gdb 
 *
-gdb (gdb) [N/y/?] 
+gdb (gdb) [Y/n/?] 
 gdb-dbg (gdb-dbg) [N/y/?] 
 gdb-dev (gdb-dev) [N/y/?] 
 gdbserver (gdbserver) [N/y/?] 
@@ -2186,8 +2186,8 @@ glib-2.0-dev (glib-2.0-dev) [N/y/?]
 *
 * glibc 
 *
-glibc (glibc) [N/y/?] 
-glibc-dev (glibc-dev) [N/y/?] 
+glibc (glibc) [Y/n/?] 
+glibc-dev (glibc-dev) [Y/n/?] 
 glibc-dbg (glibc-dbg) [N/y/?] 
 ldd (ldd) [N/y/?] 
 *
@@ -3529,7 +3529,7 @@ Add Users to Sudo users (ADD_USERS_TO_SUDOERS) [peta]
 #
 # configuration written to /home/ecilasun/repos/sandpiper_petalinux/project-spec/configs/rootfs_config
 #
-2025-11-21 02:23:22,967 - [INFO] Generating configuration files
-2025-11-21 02:23:22,968 - [DEBUG] No multilibs enabled.
-2025-11-21 02:23:22,968 - [DEBUG] No multilibs enabled.
-2025-11-21 02:23:22,973 - [DEBUG] Shutting down bitbake
+2025-11-22 21:13:26,077 - [INFO] Generating configuration files
+2025-11-22 21:13:26,077 - [DEBUG] No multilibs enabled.
+2025-11-22 21:13:26,077 - [DEBUG] No multilibs enabled.
+2025-11-22 21:13:26,082 - [DEBUG] Shutting down bitbake

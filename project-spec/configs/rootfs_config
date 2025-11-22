@@ -829,21 +829,21 @@ CONFIG_pciutils=y
 #
 # autoconf 
 #
-# CONFIG_autoconf is not set
+CONFIG_autoconf=y
 # CONFIG_autoconf-dev is not set
 # CONFIG_autoconf-dbg is not set
 
 #
 # automake 
 #
-# CONFIG_automake is not set
+CONFIG_automake=y
 # CONFIG_automake-dev is not set
 # CONFIG_automake-dbg is not set
 
 #
 # binutils 
 #
-# CONFIG_binutils is not set
+CONFIG_binutils=y
 # CONFIG_binutils-dev is not set
 # CONFIG_binutils-dbg is not set
 
@@ -946,7 +946,7 @@ CONFIG_pciutils=y
 #
 # make 
 #
-# CONFIG_make is not set
+CONFIG_make=y
 # CONFIG_make-dbg is not set
 # CONFIG_make-dev is not set
 
@@ -2215,7 +2215,7 @@ CONFIG_linux-xlnx-udev-rules=y
 #
 # gdb 
 #
-# CONFIG_gdb is not set
+CONFIG_gdb=y
 # CONFIG_gdb-dbg is not set
 # CONFIG_gdb-dev is not set
 # CONFIG_gdbserver is not set
@@ -2233,8 +2233,8 @@ CONFIG_linux-xlnx-udev-rules=y
 #
 # glibc 
 #
-# CONFIG_glibc is not set
-# CONFIG_glibc-dev is not set
+CONFIG_glibc=y
+CONFIG_glibc-dev=y
 # CONFIG_glibc-dbg is not set
 # CONFIG_ldd is not set
 
