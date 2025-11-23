@@ -27,13 +27,13 @@ endmenu
 endif
 
 if !SUBSYSTEM_DISTRO_PETALINUX
-source /home/ecilasun/repos/sandpiper_petalinux/project-spec/configs/configs/Kconfig.yoctomachinesettings
+source /home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/configs/Kconfig.yoctomachinesettings
 endif
 
 if SUBSYSTEM_DISTRO_PETALINUX
 menu "Yocto Settings"
 
-source /home/ecilasun/repos/sandpiper_petalinux/project-spec/configs/configs/Kconfig.yoctomachinesettings
+source /home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/configs/Kconfig.yoctomachinesettings
 
 if SUBSYSTEM_SDT_FLOW
 config MC_PLNX_IMAGES_LOCATION
