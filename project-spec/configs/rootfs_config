@@ -100,7 +100,7 @@ CONFIG_busybox=y
 #
 # dnf
 #
-# CONFIG_dnf is not set
+CONFIG_dnf=y
 
 #
 # e2fsprogs 
@@ -2513,7 +2513,7 @@ CONFIG_packagegroup-core-boot=y
 #
 # packagegroup-self-hosted 
 #
-# CONFIG_packagegroup-self-hosted is not set
+CONFIG_packagegroup-self-hosted=y
 # CONFIG_packagegroup-self-hosted-extended-dev is not set
 # CONFIG_packagegroup-self-hosted-debug-dev is not set
 # CONFIG_packagegroup-self-hosted-dev is not set
@@ -3265,7 +3265,7 @@ CONFIG_bridge-utils=y
 #
 # ntp
 #
-# CONFIG_ntp is not set
+CONFIG_ntp=y
 # CONFIG_ntp-dev is not set
 # CONFIG_ntp-dbg is not set
 
