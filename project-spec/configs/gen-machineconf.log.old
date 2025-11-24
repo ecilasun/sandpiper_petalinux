@@ -1,14 +1,14 @@
-2025-11-24 02:30:22,542 - [DEBUG] Using xsct from : /home/ecilasun/petalinux20251/components/xsct/bin/xsct
-2025-11-24 02:30:22,542 - [INFO] Getting Platform info from HW file
-2025-11-24 02:30:22,542 - [DEBUG] Using the soc_family specified by user:zynq
-2025-11-24 02:30:22,548 - [DEBUG] Hardware Configuration:
-2025-11-24 02:30:22,548 - [DEBUG] MACHINE     = "None"
-2025-11-24 02:30:22,548 - [DEBUG] DEVICE_ID   = "7z020"
-2025-11-24 02:30:22,548 - [DEBUG] SOC_FAMILY  = "zynq"
-2025-11-24 02:30:22,548 - [DEBUG] SOC_VARIANT = ""
-2025-11-24 02:30:22,548 - [INFO] Silentconfig project
-2025-11-24 02:30:22,548 - [DEBUG] Running CMD: yes "" | env KCONFIG_CONFIG=/home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/config conf /home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/configs/Kconfig
-2025-11-24 02:30:22,551 - [DEBUG] *
+2025-11-24 03:47:14,475 - [DEBUG] Using xsct from : /home/ecilasun/petalinux20251/components/xsct/bin/xsct
+2025-11-24 03:47:14,475 - [INFO] Getting Platform info from HW file
+2025-11-24 03:47:14,475 - [DEBUG] Using the soc_family specified by user:zynq
+2025-11-24 03:47:14,480 - [DEBUG] Hardware Configuration:
+2025-11-24 03:47:14,480 - [DEBUG] MACHINE     = "None"
+2025-11-24 03:47:14,480 - [DEBUG] DEVICE_ID   = "7z020"
+2025-11-24 03:47:14,480 - [DEBUG] SOC_FAMILY  = "zynq"
+2025-11-24 03:47:14,480 - [DEBUG] SOC_VARIANT = ""
+2025-11-24 03:47:14,480 - [INFO] Silentconfig project
+2025-11-24 03:47:14,480 - [DEBUG] Running CMD: yes "" | env KCONFIG_CONFIG=/home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/config conf /home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/configs/Kconfig
+2025-11-24 03:47:14,484 - [DEBUG] *
 * PetaLinux System Configuration
 *
 ZYNQ Configuration (SYSTEM_ZYNQ) [Y/?] y
@@ -246,16 +246,16 @@ user layer 0 (USER_LAYER_0) []
 #
 # configuration written to /home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/config
 #
-2025-11-24 02:30:22,568 - [INFO] Menuconfig rootfs
-2025-11-24 02:30:22,568 - [DEBUG] Running CMD: env KCONFIG_CONFIG=/home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/rootfs_config mconf -s /home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/rootfsconfigs/Kconfig
-2025-11-24 02:30:51,138 - [INFO] Generating configuration files
-2025-11-24 02:30:51,138 - [DEBUG] No multilibs enabled.
-2025-11-24 02:30:51,138 - [DEBUG] No multilibs enabled.
-2025-11-24 02:30:51,138 - [DEBUG] Skip adding layers as no bitbake-layers or builddir found
-2025-11-24 02:30:51,144 - [INFO] Generating plnxtool conf file
-2025-11-24 02:30:51,149 - [DEBUG] python3 /home/ecilasun/gitrepos/sandpiper_petalinux/components/yocto/layers/meta-xilinx/meta-xilinx-core/gen-machine-conf/gen-machine-scripts/rootfsconfigs/rootfs_config.py --update_cfg /home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/rootfs_config /home/ecilasun/gitrepos/sandpiper_petalinux/build/conf/plnxtool.conf zynq
-2025-11-24 02:30:51,190 - [DEBUG] 
+2025-11-24 03:47:14,500 - [INFO] Menuconfig rootfs
+2025-11-24 03:47:14,500 - [DEBUG] Running CMD: env KCONFIG_CONFIG=/home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/rootfs_config mconf -s /home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/rootfsconfigs/Kconfig
+2025-11-24 03:47:47,963 - [INFO] Generating configuration files
+2025-11-24 03:47:47,964 - [DEBUG] No multilibs enabled.
+2025-11-24 03:47:47,964 - [DEBUG] No multilibs enabled.
+2025-11-24 03:47:47,964 - [DEBUG] Skip adding layers as no bitbake-layers or builddir found
+2025-11-24 03:47:47,970 - [INFO] Generating plnxtool conf file
+2025-11-24 03:47:47,976 - [DEBUG] python3 /home/ecilasun/gitrepos/sandpiper_petalinux/components/yocto/layers/meta-xilinx/meta-xilinx-core/gen-machine-conf/gen-machine-scripts/rootfsconfigs/rootfs_config.py --update_cfg /home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/rootfs_config /home/ecilasun/gitrepos/sandpiper_petalinux/build/conf/plnxtool.conf zynq
+2025-11-24 03:47:48,015 - [DEBUG] 
 
 
 
-2025-11-24 02:30:51,190 - [DEBUG] Shutting down bitbake
+2025-11-24 03:47:48,016 - [DEBUG] Shutting down bitbake
