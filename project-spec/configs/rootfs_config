@@ -513,13 +513,13 @@ CONFIG_nfs-utils=y
 #
 # openssh 
 #
-# CONFIG_openssh is not set
+CONFIG_openssh=y
 # CONFIG_openssh-misc is not set
 # CONFIG_openssh-dbg is not set
 # CONFIG_openssh-sshd is not set
 # CONFIG_openssh-keygen is not set
 # CONFIG_openssh-ssh is not set
-# CONFIG_openssh-dev is not set
+CONFIG_openssh-dev=y
 # CONFIG_openssh-sftp is not set
 # CONFIG_openssh-sftp-server is not set
 # CONFIG_openssh-scp is not set
@@ -578,7 +578,7 @@ CONFIG_nfs-utils=y
 #
 # wget 
 #
-# CONFIG_wget is not set
+CONFIG_wget=y
 # CONFIG_wget-dev is not set
 # CONFIG_wget-dbg is not set
 
@@ -658,7 +658,7 @@ CONFIG_nfs-utils=y
 # git 
 #
 CONFIG_git=y
-# CONFIG_git-bash-completion is not set
+CONFIG_git-bash-completion=y
 # CONFIG_gitweb is not set
 # CONFIG_git-perltools is not set
 # CONFIG_git-dev is not set
@@ -681,7 +681,7 @@ CONFIG_git=y
 #
 # gzip 
 #
-# CONFIG_gzip is not set
+CONFIG_gzip=y
 # CONFIG_gzip-dbg is not set
 # CONFIG_gzip-dev is not set
 
@@ -850,7 +850,7 @@ CONFIG_binutils=y
 #
 # bison 
 #
-# CONFIG_bison is not set
+CONFIG_bison=y
 # CONFIG_bison-dbg is not set
 # CONFIG_bison-dev is not set
 
@@ -885,7 +885,7 @@ CONFIG_binutils=y
 #
 # flex 
 #
-# CONFIG_flex is not set
+CONFIG_flex=y
 # CONFIG_flex-dev is not set
 # CONFIG_flex-dbg is not set
 
@@ -1057,7 +1057,7 @@ CONFIG_run-postinsts=y
 #
 # cantarell-fonts 
 #
-# CONFIG_cantarell-fonts is not set
+CONFIG_cantarell-fonts=y
 # CONFIG_cantarell-fonts-dbg is not set
 # CONFIG_cantarell-fonts-dev is not set
 
@@ -1211,17 +1211,17 @@ CONFIG_run-postinsts=y
 #
 # fontconfig 
 #
-# CONFIG_fontconfig is not set
+CONFIG_fontconfig=y
 # CONFIG_fontconfig-utils is not set
 # CONFIG_fontconfig-dbg is not set
-# CONFIG_fontconfig-dev is not set
+CONFIG_fontconfig-dev=y
 
 #
 # freetype 
 #
-# CONFIG_freetype is not set
+CONFIG_freetype=y
 # CONFIG_freetype-dbg is not set
-# CONFIG_freetype-dev is not set
+CONFIG_freetype-dev=y
 
 #
 # gdbm 
@@ -2171,21 +2171,21 @@ CONFIG_linux-xlnx-udev-rules=y
 #
 # fbset 
 #
-# CONFIG_fbset is not set
+CONFIG_fbset=y
 # CONFIG_fbset-dbg is not set
 # CONFIG_fbset-dev is not set
 
 #
 # fbset-modes 
 #
-# CONFIG_fbset-modes is not set
+CONFIG_fbset-modes=y
 # CONFIG_fbset-modes-dev is not set
 # CONFIG_fbset-modes-dbg is not set
 
 #
 # font-util 
 #
-# CONFIG_font-util is not set
+CONFIG_font-util=y
 # CONFIG_font-util-dev is not set
 # CONFIG_font-util-dbg is not set
 
