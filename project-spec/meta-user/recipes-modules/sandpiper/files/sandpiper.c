@@ -22,7 +22,7 @@
 
 // 32Mbytes reserved for device access
 #define RESERVED_MEMORY_SIZE	0x2000000
-// Device region of access
+// Device region of access (4Kbytes each)
 #define DEVICE_MEMORY_SIZE		0x1000
 
 // Character device name
@@ -42,6 +42,9 @@
 #define SP_IOCTL_PALETTE_WRITE		_IOW('k', 10, void*)
 #define SP_IOCTL_GET_VCP_CTL		_IOR('k', 11, void*)
 
+// Video mode control word
+#define MAKEVMODEINFO(_cmode, _vmode, _scanEnable) ((_cmode&0x1)<<2) | ((_vmode&0x1)<<1) | (_scanEnable&0x1)
+
 // VPU command fifo commands
 #define VPUCMD_SETVPAGE			0x00000000
 #define VPUCMD_RESERVED			0x00000001
@@ -55,6 +58,27 @@
 #define VPUCMD_WPROGADDR		0x00000009
 #define VPUCMD_WPROGWORD		0x0000000A
 #define VPUCMD_NOOP				0x000000FF
+
+enum EVideoMode
+{
+	EVM_320_Wide,
+	EVM_640_Wide,
+	EVM_Count
+};
+
+enum EColorMode
+{
+	ECM_8bit_Indexed,
+	ECM_16bit_RGB,
+	ECM_Count
+};
+
+enum EVideoScanoutEnable
+{
+	EVS_Disable,
+	EVS_Enable,
+	EVS_Count
+};
 
 // APU command fifo commands
 #define APUCMD_BUFFERSIZE   0x00000000
