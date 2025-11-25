@@ -42,6 +42,40 @@
 #define SP_IOCTL_PALETTE_WRITE		_IOW('k', 10, void*)
 #define SP_IOCTL_GET_VCP_CTL		_IOR('k', 11, void*)
 
+// VPU command fifo commands
+#define VPUCMD_SETVPAGE			0x00000000
+#define VPUCMD_RESERVED			0x00000001
+#define VPUCMD_SETVMODE			0x00000002
+#define VPUCMD_SHIFTCACHE		0x00000003
+#define VPUCMD_SHIFTSCANOUT		0x00000004
+#define VPUCMD_SHIFTPIXEL		0x00000005
+#define VPUCMD_SETVPAGE2		0x00000006
+#define VPUCMD_SYNCSWAP			0x00000007
+#define VPUCMD_WCONTROLREG		0x00000008
+#define VPUCMD_WPROGADDR		0x00000009
+#define VPUCMD_WPROGWORD		0x0000000A
+#define VPUCMD_NOOP				0x000000FF
+
+// APU command fifo commands
+#define APUCMD_BUFFERSIZE   0x00000000
+#define APUCMD_START        0x00000001
+#define APUCMD_NOOP         0x00000002
+#define APUCMD_SWAPCHANNELS 0x00000003
+#define APUCMD_SETRATE      0x00000004
+
+// VCP command fifo commands
+#define VCPSETBUFFERSIZE	0x0
+#define VCPSTARTDMA			0x1
+#define VCPEXEC				0x2
+
+enum EAPUSampleRate
+{
+	ASR_44_100_Hz = 0,	// 44.1000 KHz
+	ASR_22_050_Hz = 1,	// 22.0500 KHz
+	ASR_11_025_Hz = 2,	// 11.0250 KHz
+	ASR_Halt = 3,		// Halt
+};
+
 struct SPIoctl
 {
 	uint32_t offset;	// Offset within the control register
@@ -55,6 +89,7 @@ struct my_driver_data {
 	volatile uint32_t *vcp_ctl;		// User side code has to mmap this address when accessing VCP control registers
     struct cdev cdev;
     struct device *device;
+	uint32_t open_count;
 };
 
 static int		dev_open(struct inode *, struct file *);
@@ -82,6 +117,9 @@ static int sandpiper_probe(struct platform_device *pdev)
 		printk(KERN_INFO "%s: failed to allocate memory for driver data\n", DEVICE_NAME);
         return -ENOMEM;
 	}
+
+	// Reset open file handle count
+	drvdata->open_count = 0;
 
 	drvdata->audio_ctl = ioremap(AUDIO_CTRL_REGS_ADDR, DEVICE_MEMORY_SIZE);
 	if (!drvdata->audio_ctl) {
@@ -155,6 +193,7 @@ static void sandpiper_remove(struct platform_device *pdev)
 	iounmap(drvdata->video_ctl);
 	iounmap(drvdata->audio_ctl);
 	iounmap(drvdata->palette_ctl);
+	iounmap(drvdata->vcp_ctl);
 
     cdev_del(&drvdata->cdev);
     unregister_chrdev_region(drvdata->cdev.dev, 1);
@@ -166,11 +205,59 @@ static int dev_open(struct inode *inode, struct file *file)
 {
     struct my_driver_data *drvdata = container_of(inode->i_cdev, struct my_driver_data, cdev);
     file->private_data = drvdata;
+
+	// Inc reference count
+	drvdata->open_count++;
+
 	return 0;
 }
 
 static int dev_release(struct inode *inode, struct file *file)
 {
+	struct my_driver_data *drvdata = container_of(inode->i_cdev, struct my_driver_data, cdev);
+
+	// Decrement reference count
+	drvdata->open_count--;
+
+	// Tear down device states
+	// This should allow us to restore device state without having to install signal handlers in user space
+	if (drvdata->open_count == 0)
+	{
+		// VPU
+		{
+			// Set video mode to 640x480x16 RGB and scanout pointing at linux framebuffer
+			uint32_t modeflags = MAKEVMODEINFO((uint32_t)ECM_16bit_RGB, (uint32_t)EVM_640_Wide, (uint32_t)EVS_Enable);
+			iowrite32(VPUCMD_SETVPAGE, (volatile uint32_t*)(drvdata->video_ctl));
+			iowrite32(0x18000000, (volatile uint32_t*)(drvdata->video_ctl));
+			iowrite32(VPUCMD_SETVMODE, (volatile uint32_t*)(drvdata->video_ctl));
+			iowrite32(modeflags, (volatile uint32_t*)(drvdata->video_ctl));
+
+			// Reset VPU control registers
+			iowrite32(VPUCMD_WCONTROLREG | 0, (volatile uint32_t*)(drvdata->video_ctl));
+
+			// Reset video scroll registers
+			iowrite32(VPUCMD_SHIFTCACHE, (volatile uint32_t*)(drvdata->video_ctl));
+			iowrite32(0, (volatile uint32_t*)(drvdata->video_ctl));
+			iowrite32(VPUCMD_SHIFTSCANOUT, (volatile uint32_t*)(drvdata->video_ctl));
+			iowrite32(0, (volatile uint32_t*)(drvdata->video_ctl));
+			iowrite32(VPUCMD_SHIFTPIXEL, (volatile uint32_t*)(drvdata->video_ctl));
+			iowrite32(0, (volatile uint32_t*)(drvdata->video_ctl));
+		}
+
+		// APU
+		{
+			// Stop all audio channels
+			iowrite32(APUCMD_SETRATE, (volatile uint32_t*)(drvdata->audio_ctl));
+			iowrite32(ASR_Halt, (volatile uint32_t*)(drvdata->audio_ctl));
+		}
+
+		// VCP
+		{
+			// Stop all VCP program activity
+			iowrite32(VCPEXEC | 0, (volatile uint32_t*)(drvdata->vcp_ctl));
+		}
+	}
+
 	return 0;
 }
 
