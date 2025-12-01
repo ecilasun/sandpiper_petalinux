@@ -1847,9 +1847,9 @@ CONFIG_freetype-dev=y
 #
 # ncurses 
 #
-# CONFIG_ncurses is not set
+CONFIG_ncurses=y
 # CONFIG_ncurses-terminfo-base is not set
-# CONFIG_ncurses-dev is not set
+CONFIG_ncurses-dev=y
 # CONFIG_ncurses-tools is not set
 # CONFIG_ncurses-terminfo is not set
 # CONFIG_ncurses-dbg is not set
@@ -2192,18 +2192,18 @@ CONFIG_font-util=y
 #
 # gcc-runtime 
 #
-# CONFIG_libstdcPLUSPLUS is not set
-# CONFIG_libstdcPLUSPLUS-dev is not set
+CONFIG_libstdcPLUSPLUS=y
+CONFIG_libstdcPLUSPLUS-dev=y
 
 #
 # gcc-sanitizers 
 #
-# CONFIG_gcc-sanitizers is not set
-# CONFIG_libubsan-dev is not set
-# CONFIG_libubsan is not set
-# CONFIG_gcc-sanitizers-dbg is not set
-# CONFIG_libasan is not set
-# CONFIG_libasan-dev is not set
+CONFIG_gcc-sanitizers=y
+CONFIG_libubsan-dev=y
+CONFIG_libubsan=y
+CONFIG_gcc-sanitizers-dbg=y
+CONFIG_libasan=y
+CONFIG_libasan-dev=y
 
 #
 # gcr 
@@ -2223,7 +2223,7 @@ CONFIG_gdb=y
 #
 # glib-2.0 
 #
-# CONFIG_glib-2.0 is not set
+CONFIG_glib-2.0=y
 # CONFIG_glib-2.0-codegen is not set
 # CONFIG_glib-2.0-utils is not set
 # CONFIG_glib-2.0-dbg is not set
@@ -3750,8 +3750,8 @@ CONFIG_Init-manager-sysvinit=y
 #
 # user packages 
 #
-CONFIG_gpio-demo=y
-CONFIG_peekpoke=y
+# CONFIG_gpio-demo is not set
+# CONFIG_peekpoke is not set
 CONFIG_sandpiper=y
 
 #
