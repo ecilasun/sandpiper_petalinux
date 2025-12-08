@@ -1,0 +1,8 @@
+// Under MSYS2 UCRT64, download QEMU and install via:
+pacman -S mingw-w64-ucrt-x86_64-qemu
+
+// Run the following to start the emulator
+qemu-system-arm -M xilinx-zynq-a9 -cpu cortex-a9 -smp cores=2 -m 16 -kernel zImage -dtb system.dtb -drive file=rootfs.ext4,if=sd,format=raw -append "console=ttyPS0,115200 root=/dev/ram rw earlyprintk" -serial mon:stdio -net nic,model=cadence_gem -net user
+
+// NOTE: do we need to append this?
+,tftp=/images/linux
