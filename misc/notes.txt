@@ -13,9 +13,13 @@ qemu-system-arm -m 1024 -M xilinx-zynq-a9 -kernel ./zImage -gdb tcp::9000 -dtb .
 
 
 ///
+sudo apt-get install python3-venv
+sudo apt-get install ninja-build
+sudo apt-get install libpixman-1-dev
+sudo apt-get install libglib2.0-dev pkg-config
 git clone https://gitlab.com/qemu-project/qemu.git
 cd qemu
-// NOTE: add device code here
+// NOTE: Before moving further, add device code here
 mkdir build && cd build
 ../configure --target-list=arm-softmmu
 make -j$(nproc)
