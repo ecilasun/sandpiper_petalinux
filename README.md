@@ -52,9 +52,9 @@ The default QUEMU emulator won't show video or have any functioning devices, but
 
 5) To build applications for sandpiper platform, please see the links below.
 
-## Related repos
+## Documentation
 
-See the [Sandpiper project page](https://ecilasun.github.io/sandpiper/) for related repositories and documentation.
+See the [Sandpiper project page](https://ecilasun.github.io/sandpiper/) for links to all related repositories and SDK documentation.
 
 ## Development toolchains
 
