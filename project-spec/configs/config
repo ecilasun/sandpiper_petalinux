@@ -121,7 +121,7 @@ CONFIG_SUBSYSTEM_EXTRA_DT_FILES=""
 # Kernel Bootargs
 #
 # CONFIG_SUBSYSTEM_BOOTARGS_AUTO is not set
-CONFIG_SUBSYSTEM_USER_CMDLINE="console=ttyPS0,115200 earlycon quiet splash root=/dev/mmcblk0p2 ro rootwait"
+CONFIG_SUBSYSTEM_USER_CMDLINE="console=ttyPS0,115200 console=tty1 earlycon quiet splash root=/dev/mmcblk0p2 ro rootwait"
 CONFIG_SUBSYSTEM_DEVICETREE_COMPILER_FLAGS="-@"
 # CONFIG_SUBSYSTEM_DTB_OVERLAY is not set
 # CONFIG_SUBSYSTEM_REMOVE_PL_DTB is not set
