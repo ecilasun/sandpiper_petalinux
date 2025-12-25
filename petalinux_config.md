@@ -120,12 +120,13 @@ then add the following to this file:
 #!/bin/sh
 export FBTERM=1
 export LANG=en_US.UTF-8
+export HOME=/root
 cat /usr/share/misc/gray.bin > /dev/fb0
 export FBTERM_BACKGROUND_IMAGE=1
 exec /usr/local/bin/fbterm -- /bin/login
+```
 IMPORTANT! DO NOT FORGET TO MAKE IT EXECUTABLE OR THERE WON'T BE A CONSOLE:
 sudo chmod +x /usr/local/bin/fbterm-login
-```
 
 After this do NOT forget to make it executable or there won't be a terminal:
 ```
@@ -164,14 +165,17 @@ cat /usr/share/misc/poweroff.bin" > /dev/fb0
 
 Font setup for fbterm:
 ---
-First we edit the .fbtermrc file in your home folder:
+
+First, we need to copy all fonts from image/binaries to the /usr/share/fonts/ttf folder.
+
+Then we edit the .fbtermrc file in your home folder:
 ```
 vi .fbtermrc
 ```
 
-and edit the font name and size, for example:
+and edit the font name and size, for example this one is a good choice:
 ```
-font-names=AudioLink Console Bold:style=Bold
+font-names=Liberation Mono:style=Bold
 font-size=12
 ```
 
