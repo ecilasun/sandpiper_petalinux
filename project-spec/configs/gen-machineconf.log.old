@@ -1,15 +1,10 @@
-2025-12-22 21:11:37,744 - [DEBUG] Using xsct from : /home/ecilasun/petalinux20251/components/xsct/bin/xsct
-2025-12-22 21:11:37,744 - [INFO] Getting Platform info from HW file
-2025-12-22 21:11:37,744 - [DEBUG] Using the soc_family specified by user:zynq
-2025-12-22 21:11:37,750 - [DEBUG] Hardware Configuration:
-2025-12-22 21:11:37,750 - [DEBUG] MACHINE     = "None"
-2025-12-22 21:11:37,750 - [DEBUG] DEVICE_ID   = "7z020"
-2025-12-22 21:11:37,750 - [DEBUG] SOC_FAMILY  = "zynq"
-2025-12-22 21:11:37,750 - [DEBUG] SOC_VARIANT = ""
-2025-12-22 21:11:37,750 - [INFO] Menuconfig project
-2025-12-22 21:11:37,750 - [DEBUG] Running CMD: env KCONFIG_CONFIG=/home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/config mconf -s /home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/configs/Kconfig
-2025-12-22 21:12:07,197 - [DEBUG] xsct -sdx -nodisp /home/ecilasun/gitrepos/sandpiper_petalinux/components/yocto/layers/meta-xilinx/meta-xilinx-core/gen-machine-conf/gen-machine-scripts/petalinux_hsm.tcl get_flash_width_parts /home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/config /home/ecilasun/gitrepos/sandpiper_petalinux/components/yocto/layers/meta-xilinx/meta-xilinx-core/gen-machine-conf/gen-machine-scripts/data/ipinfo.yaml /home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/hw-description/system.xsa /home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/flash_parts.txt
-2025-12-22 21:12:11,860 - [DEBUG] 
+2025-12-25 04:44:42,304 - [DEBUG] Using xsct from : /home/ecilasun/petalinux20251/components/xsct/bin/xsct
+2025-12-25 04:44:42,304 - [INFO] Getting Platform info from HW file
+2025-12-25 04:44:42,304 - [DEBUG] Using the soc_family specified by user:zynq
+2025-12-25 04:44:42,304 - [INFO] Generating Kconfig for project
+2025-12-25 04:44:42,304 - [DEBUG] Generating System HW file
+2025-12-25 04:44:42,304 - [DEBUG] xsct -sdx -nodisp /home/ecilasun/gitrepos/sandpiper_petalinux/components/yocto/layers/meta-xilinx/meta-xilinx-core/gen-machine-conf/gen-machine-scripts/hw-description.tcl plnx_gen_hwsysconf /home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/hw-description/system.xsa
+2025-12-25 04:44:46,970 - [DEBUG] 
 
 ****** Software Commandline Tool (XSCT) v2025.1.0
   **** SW Build 6135694 on Thu May 15 18:54:54 MDT 2025
@@ -28,9 +23,16 @@ INFO: [Hsi 55-2053] elapsed time for repository (/home/ecilasun/petalinux20251/c
 WARNING: Failed in finding /home/ecilasun/petalinux20251/components/xsct/data/system-device-tree-xlnx/device_tree/data/device_tree.tcl path.
 
 
-2025-12-22 21:12:11,862 - [INFO] Silentconfig rootfs
-2025-12-22 21:12:11,862 - [DEBUG] Running CMD: yes "" | env KCONFIG_CONFIG=/home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/rootfs_config conf /home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/rootfsconfigs/Kconfig
-2025-12-22 21:12:11,874 - [DEBUG] *
+2025-12-25 04:44:47,004 - [DEBUG] Hardware Configuration:
+2025-12-25 04:44:47,004 - [DEBUG] MACHINE     = "None"
+2025-12-25 04:44:47,004 - [DEBUG] DEVICE_ID   = "7z020"
+2025-12-25 04:44:47,004 - [DEBUG] SOC_FAMILY  = "zynq"
+2025-12-25 04:44:47,004 - [DEBUG] SOC_VARIANT = ""
+2025-12-25 04:44:47,004 - [INFO] Menuconfig project
+2025-12-25 04:44:47,004 - [DEBUG] Running CMD: env KCONFIG_CONFIG=/home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/config mconf -s /home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/configs/Kconfig
+2025-12-25 04:44:49,302 - [INFO] Silentconfig rootfs
+2025-12-25 04:44:49,302 - [DEBUG] Running CMD: yes "" | env KCONFIG_CONFIG=/home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/rootfs_config conf /home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/rootfsconfigs/Kconfig
+2025-12-25 04:44:49,309 - [DEBUG] *
 * Configuration
 *
 *
@@ -3313,14 +3315,7 @@ Add Users to Sudo users (ADD_USERS_TO_SUDOERS) [peta]
 #
 # configuration written to /home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/rootfs_config
 #
-2025-12-22 21:12:11,877 - [INFO] Generating configuration files
-2025-12-22 21:12:11,878 - [DEBUG] No multilibs enabled.
-2025-12-22 21:12:11,878 - [DEBUG] No multilibs enabled.
-2025-12-22 21:12:11,882 - [INFO] Generating machine conf file
-2025-12-22 21:12:11,886 - [INFO] Generating plnxtool conf file
-2025-12-22 21:12:11,894 - [DEBUG] python3 /home/ecilasun/gitrepos/sandpiper_petalinux/components/yocto/layers/meta-xilinx/meta-xilinx-core/gen-machine-conf/gen-machine-scripts/rootfsconfigs/rootfs_config.py --update_cfg /home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/rootfs_config /home/ecilasun/gitrepos/sandpiper_petalinux/build/conf/plnxtool.conf zynq
-2025-12-22 21:12:11,926 - [DEBUG] 
-
-
-
-2025-12-22 21:12:11,927 - [DEBUG] Shutting down bitbake
+2025-12-25 04:44:49,313 - [INFO] Generating configuration files
+2025-12-25 04:44:49,313 - [DEBUG] No multilibs enabled.
+2025-12-25 04:44:49,313 - [DEBUG] No multilibs enabled.
+2025-12-25 04:44:49,322 - [DEBUG] Shutting down bitbake
