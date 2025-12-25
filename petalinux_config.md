@@ -160,7 +160,7 @@ sudo vi /etc/rc0.d/S90halt
 
 and add this right above the 'halt' line:
 ```
-cat /usr/share/misc/poweroff.bin" > /dev/fb0
+cat /usr/share/misc/poweroff.bin > /dev/fb0
 ```
 
 Font setup for fbterm:
