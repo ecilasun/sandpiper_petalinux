@@ -175,7 +175,7 @@ vi .fbtermrc
 
 and edit the font name and size, for example this one is a good choice:
 ```
-font-names=Liberation Mono:style=Bold
+font-names=Liberation Mono:style=Regular
 font-size=12
 ```
 
