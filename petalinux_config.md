@@ -14,6 +14,47 @@ sudo vi /etc/network/interfaces
 and replace all eth0 with auto enx000a35001e53 then :wq and reboot
 NOTE: Delete any iface eth1 line you may find as that seems to interfere with networking
 
+Switching to SSH:
+----
+At this point you can switch to SSH since it's a lot easier to work with a window where you can copy/paste text. Simply run something similar to the following, but with your device's IP:
+```
+ssh peta@192.168.1.87
+```
+When asked if you want to add this machine, type 'yes' and then 'peta' at the password prompt and you should be logged in.
+
+P.S. You can learn what IP your machine has using the following command:
+```
+ifconfig
+```
+
+Bluetooth:
+---
+For this to work, we need to copy [brcm/BCM20702A1-0a5c-21e8.hcd](https://github.com/winterheart/broadcom-bt-firmware/blob/master/brcm/BCM20702A1-0a5c-21e8.hcd) from the git repo into the /lib/firmware/brcm folder.
+
+```
+sudo mkdir /lib/firmware
+sudo mkdir /lib/firmware/brcm
+sudo cp BCM20702A1-0a5c-21e8.hcd /lib/firmware/brcm
+```
+
+Might want to do the following to test:
+
+```
+bluetoothctl
+power on
+agent on
+default-agent
+scan on
+```
+
+If successful, it will list bluetooth device MAC addresses available with short names.
+
+To stop, CTRL+C once then:
+```
+scan off
+exit
+```
+
 Remove login splash and login timeout:
 ----
 First, remove the timeout by editing login.defs file
@@ -37,19 +78,6 @@ and type the following as contents (warning: except MODE all are double = signs)
 KERNEL=="sandpiper", SUBSYSTEM=="sandpiper", GROUP=="users", MODE="0666"
 ```
 :wq then reboot to gain unhindered access to hardware devices.
-
-Switching to SSH:
-----
-At this point you can switch to SSH since it's a lot easier to work with a window where you can copy/paste text. Simply run something similar to the following, but with your device's IP:
-```
-ssh peta@192.168.1.87
-```
-When asked if you want to add this machine, type 'yes' and then 'peta' at the password prompt and you should be logged in.
-
-P.S. You can learn what IP your machine has using the following command:
-```
-ifconfig
-```
 
 Fbterm:
 ----
@@ -94,7 +122,7 @@ if [ "$TERM" = "linux" ]; then
 fi
 ```
 
-then make sure your .bashrc has the following lines:
+then sudo vi .bashrc and make sure the file contents are entirely replaced by the following:
 ```
 # Larger right triangle
 TRICODE=$'\uE0B0'
@@ -104,12 +132,14 @@ if [ -n "$SSH_CLIENT" ]; then
 else
     export PS1='\[\e[44m\e[37m\u\e[43m\e[34m'$TRICODE'\e[43m\e[37m\h\e[46m\e[33m'$TRICODE'\e[46m\e[30m\W\e[40m\e[36m'$TRICODE'\e[0m\] '
 fi
+umask 022
 export LS_OPTIONS='--color=auto'
 export TERM=linux
 eval "$(dircolors -b ~/.dircolors)"
 alias ls='ls $LS_OPTIONS'
 echo "Welcome to sandpiper"
 ```
+
 To use fbterm on login, we need to create a script file first:
 ```
 sudo vi /usr/local/bin/fbterm-login
@@ -125,8 +155,6 @@ cat /usr/share/misc/gray.bin > /dev/fb0
 export FBTERM_BACKGROUND_IMAGE=1
 exec /usr/local/bin/fbterm -- /bin/login
 ```
-IMPORTANT! DO NOT FORGET TO MAKE IT EXECUTABLE OR THERE WON'T BE A CONSOLE:
-sudo chmod +x /usr/local/bin/fbterm-login
 
 After this do NOT forget to make it executable or there won't be a terminal:
 ```
@@ -136,6 +164,8 @@ sudo chmod +x /usr/local/bin/fbterm-login
 Now we need to copy the gray.bin and poweroff.bin files from the image/binaries folder to /usr/share/misc/
 and set their owner to root:
 ```
+sudo cp gray.bin /usr/share/misc/
+sudo cp poweroff.bin /usr/share/misc/
 sudo chown root:root /usr/share/misc/gray.bin
 sudo chown root:root /usr/share/misc/poweroff.bin
 ```
@@ -167,6 +197,9 @@ Font setup for fbterm:
 ---
 
 First, we need to copy all fonts from image/binaries to the /usr/share/fonts/ttf folder.
+```
+sudo mv ttf/ /usr/share/fonts/
+```
 
 Then we edit the .fbtermrc file in your home folder:
 ```
@@ -190,30 +223,7 @@ sudo cp ~/.fbtermrc /root/
 sudo chown root:root /root/.fbtermrc
 ```
 
-Bluetooth:
+Setting up shortcut to data partition:
 ---
-For this to work, we need to copy [brcm/BCM20702A1-0a5c-21e8.hcd](https://github.com/winterheart/broadcom-bt-firmware/blob/master/brcm/BCM20702A1-0a5c-21e8.hcd) from the git repo into the /lib/firmware/brcm folder.
+For convenience we should create a symlink to the /run/media/data* partition:
 
-```
-sudo mkdir /lib/firmware
-sudo mkdir /lib/firmware/brcm
-sudo cp BCM20702A1-0a5c-21e8.hcd /lib/firmware/brcm
-```
-
-Might want to do the following to test:
-
-```
-bluetoothctl
-power on
-agent on
-default-agent
-scan on
-```
-
-If successful, it will list bluetooth device MAC addresses available with short names.
-
-To stop, CTRL+C once then:
-```
-scan off
-exit
-```
