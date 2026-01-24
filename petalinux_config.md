@@ -12,7 +12,7 @@ By default eth0 gets renamed to enx000a35001e53 on petalinux
 To fix that:
 sudo vi /etc/network/interfaces
 and replace all eth0 with auto enx000a35001e53 then :wq and reboot
-NOTE: Delete any iface eth1 line you may find
+NOTE: Delete any iface eth1 line you may find as that seems to interfere with networking
 
 Remove login splash and login timeout:
 ----
@@ -188,4 +188,32 @@ Then we copy the .fbtermrc file there and set its owner to root:
 ```
 sudo cp ~/.fbtermrc /root/
 sudo chown root:root /root/.fbtermrc
+```
+
+Bluetooth:
+---
+For this to work, we need to copy [brcm/BCM20702A1-0a5c-21e8.hcd](https://github.com/winterheart/broadcom-bt-firmware/blob/master/brcm/BCM20702A1-0a5c-21e8.hcd) from the git repo into the /lib/firmware/brcm folder.
+
+```
+sudo mkdir /lib/firmware
+sudo mkdir /lib/firmware/brcm
+sudo cp BCM20702A1-0a5c-21e8.hcd /lib/firmware/brcm
+```
+
+Might want to do the following to test:
+
+```
+bluetoothctl
+power on
+agent on
+default-agent
+scan on
+```
+
+If successful, it will list bluetooth device MAC addresses available with short names.
+
+To stop, CTRL+C once then:
+```
+scan off
+exit
 ```

@@ -338,7 +338,7 @@ CONFIG_mtd-utils=y
 #
 # usbutils 
 #
-# CONFIG_usbutils is not set
+CONFIG_usbutils=y
 # CONFIG_usbutils-dbg is not set
 # CONFIG_usbutils-dev is not set
 
@@ -1116,12 +1116,12 @@ CONFIG_cantarell-fonts=y
 #
 # bluez5 
 #
-# CONFIG_bluez5 is not set
-# CONFIG_bluez5-testtools is not set
+CONFIG_bluez5=y
+CONFIG_bluez5-testtools=y
 # CONFIG_bluez5-dbg is not set
-# CONFIG_bluez5-obex is not set
+CONFIG_bluez5-obex=y
 # CONFIG_bluez5-dev is not set
-# CONFIG_bluez5-noinst-tools is not set
+CONFIG_bluez5-noinst-tools=y
 
 #
 # boost 
@@ -1584,9 +1584,9 @@ CONFIG_freetype-dev=y
 #
 # libusb1 
 #
-# CONFIG_libusb1 is not set
+CONFIG_libusb1=y
 # CONFIG_libusb1-dbg is not set
-# CONFIG_libusb1-dev is not set
+CONFIG_libusb1-dev=y
 
 #
 # libvorbis 
