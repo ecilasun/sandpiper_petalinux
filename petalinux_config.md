@@ -227,3 +227,10 @@ Setting up shortcut to data partition:
 ---
 For convenience we should create a symlink to the /run/media/data* partition:
 
+```
+ln -s data /run/media/data-mmcblk0p3
+```
+
+This will give us a data directory inside the home directory for quick access.
+
+NOTE: We might need to repeat this step for all users since root filesystem space is limited, but data partition is larger.
