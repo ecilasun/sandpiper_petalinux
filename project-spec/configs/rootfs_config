@@ -2218,7 +2218,7 @@ CONFIG_libasan-dev=y
 CONFIG_gdb=y
 # CONFIG_gdb-dbg is not set
 # CONFIG_gdb-dev is not set
-# CONFIG_gdbserver is not set
+CONFIG_gdbserver=y
 
 #
 # glib-2.0 

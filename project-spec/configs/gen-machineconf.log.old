@@ -1,14 +1,14 @@
-2026-01-24 20:06:26,501 - [DEBUG] Using xsct from : /home/ecilasun/petalinux20251/components/xsct/bin/xsct
-2026-01-24 20:06:26,501 - [INFO] Getting Platform info from HW file
-2026-01-24 20:06:26,501 - [DEBUG] Using the soc_family specified by user:zynq
-2026-01-24 20:06:26,506 - [DEBUG] Hardware Configuration:
-2026-01-24 20:06:26,506 - [DEBUG] MACHINE     = "None"
-2026-01-24 20:06:26,506 - [DEBUG] DEVICE_ID   = "7z020"
-2026-01-24 20:06:26,506 - [DEBUG] SOC_FAMILY  = "zynq"
-2026-01-24 20:06:26,506 - [DEBUG] SOC_VARIANT = ""
-2026-01-24 20:06:26,506 - [INFO] Silentconfig project
-2026-01-24 20:06:26,506 - [DEBUG] Running CMD: yes "" | env KCONFIG_CONFIG=/home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/config conf /home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/configs/Kconfig
-2026-01-24 20:06:26,510 - [DEBUG] *
+2026-01-31 05:59:16,088 - [DEBUG] Using xsct from : /home/engin/petalinux2025_1/components/xsct/bin/xsct
+2026-01-31 05:59:16,088 - [INFO] Getting Platform info from HW file
+2026-01-31 05:59:16,088 - [DEBUG] Using the soc_family specified by user:zynq
+2026-01-31 05:59:16,106 - [DEBUG] Hardware Configuration:
+2026-01-31 05:59:16,106 - [DEBUG] MACHINE     = "None"
+2026-01-31 05:59:16,106 - [DEBUG] DEVICE_ID   = "7z020"
+2026-01-31 05:59:16,106 - [DEBUG] SOC_FAMILY  = "zynq"
+2026-01-31 05:59:16,106 - [DEBUG] SOC_VARIANT = ""
+2026-01-31 05:59:16,107 - [INFO] Silentconfig project
+2026-01-31 05:59:16,107 - [DEBUG] Running CMD: yes "" | env KCONFIG_CONFIG=/home/engin/gitrepos/sandpiper_petalinux/project-spec/configs/config conf /home/engin/gitrepos/sandpiper_petalinux/project-spec/configs/configs/Kconfig
+2026-01-31 05:59:16,114 - [DEBUG] *
 * PetaLinux System Configuration
 *
 ZYNQ Configuration (SYSTEM_ZYNQ) [Y/?] y
@@ -243,18 +243,18 @@ Enable Buildtools Extended (YOCTO_BUILDTOOLS_EXTENDED) [N/y/?]
 *
 user layer 0 (USER_LAYER_0) [] 
 #
-# configuration written to /home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/config
+# configuration written to /home/engin/gitrepos/sandpiper_petalinux/project-spec/configs/config
 #
-2026-01-24 20:06:26,527 - [INFO] Menuconfig rootfs
-2026-01-24 20:06:26,527 - [DEBUG] Running CMD: env KCONFIG_CONFIG=/home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/rootfs_config mconf -s /home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/rootfsconfigs/Kconfig
-2026-01-24 20:08:23,815 - [INFO] Generating configuration files
-2026-01-24 20:08:23,816 - [DEBUG] No multilibs enabled.
-2026-01-24 20:08:23,816 - [DEBUG] No multilibs enabled.
-2026-01-24 20:08:23,816 - [DEBUG] Skip adding layers as no bitbake-layers or builddir found
-2026-01-24 20:08:23,822 - [INFO] Generating plnxtool conf file
-2026-01-24 20:08:23,828 - [DEBUG] python3 /home/ecilasun/gitrepos/sandpiper_petalinux/components/yocto/layers/meta-xilinx/meta-xilinx-core/gen-machine-conf/gen-machine-scripts/rootfsconfigs/rootfs_config.py --update_cfg /home/ecilasun/gitrepos/sandpiper_petalinux/project-spec/configs/rootfs_config /home/ecilasun/gitrepos/sandpiper_petalinux/build/conf/plnxtool.conf zynq
-2026-01-24 20:08:23,861 - [DEBUG] 
+2026-01-31 05:59:16,172 - [INFO] Menuconfig rootfs
+2026-01-31 05:59:16,172 - [DEBUG] Running CMD: env KCONFIG_CONFIG=/home/engin/gitrepos/sandpiper_petalinux/project-spec/configs/rootfs_config mconf -s /home/engin/gitrepos/sandpiper_petalinux/project-spec/configs/rootfsconfigs/Kconfig
+2026-01-31 06:04:58,108 - [INFO] Generating configuration files
+2026-01-31 06:04:58,109 - [DEBUG] No multilibs enabled.
+2026-01-31 06:04:58,109 - [DEBUG] No multilibs enabled.
+2026-01-31 06:04:58,109 - [DEBUG] Skip adding layers as no bitbake-layers or builddir found
+2026-01-31 06:04:58,126 - [INFO] Generating plnxtool conf file
+2026-01-31 06:04:58,145 - [DEBUG] python3 /home/engin/gitrepos/sandpiper_petalinux/components/yocto/layers/meta-xilinx/meta-xilinx-core/gen-machine-conf/gen-machine-scripts/rootfsconfigs/rootfs_config.py --update_cfg /home/engin/gitrepos/sandpiper_petalinux/project-spec/configs/rootfs_config /home/engin/gitrepos/sandpiper_petalinux/build/conf/plnxtool.conf zynq
+2026-01-31 06:04:58,210 - [DEBUG] 
 
 
 
-2026-01-24 20:08:23,861 - [DEBUG] Shutting down bitbake
+2026-01-31 06:04:58,212 - [DEBUG] Shutting down bitbake
