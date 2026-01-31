@@ -1,14 +1,14 @@
-2026-01-31 06:52:50,882 - [DEBUG] Using xsct from : /home/engin/petalinux2025_1/components/xsct/bin/xsct
-2026-01-31 06:52:50,883 - [INFO] Getting Platform info from HW file
-2026-01-31 06:52:50,883 - [DEBUG] Using the soc_family specified by user:zynq
-2026-01-31 06:52:50,900 - [DEBUG] Hardware Configuration:
-2026-01-31 06:52:50,900 - [DEBUG] MACHINE     = "None"
-2026-01-31 06:52:50,900 - [DEBUG] DEVICE_ID   = "7z020"
-2026-01-31 06:52:50,900 - [DEBUG] SOC_FAMILY  = "zynq"
-2026-01-31 06:52:50,900 - [DEBUG] SOC_VARIANT = ""
-2026-01-31 06:52:50,900 - [INFO] Silentconfig project
-2026-01-31 06:52:50,900 - [DEBUG] Running CMD: yes "" | env KCONFIG_CONFIG=/home/engin/gitrepos/sandpiper_petalinux/project-spec/configs/config conf /home/engin/gitrepos/sandpiper_petalinux/project-spec/configs/configs/Kconfig
-2026-01-31 06:52:50,908 - [DEBUG] *
+2026-01-31 21:44:14,929 - [DEBUG] Using xsct from : /home/engin/petalinux2025_1/components/xsct/bin/xsct
+2026-01-31 21:44:14,929 - [INFO] Getting Platform info from HW file
+2026-01-31 21:44:14,929 - [DEBUG] Using the soc_family specified by user:zynq
+2026-01-31 21:44:14,959 - [DEBUG] Hardware Configuration:
+2026-01-31 21:44:14,959 - [DEBUG] MACHINE     = "None"
+2026-01-31 21:44:14,959 - [DEBUG] DEVICE_ID   = "7z020"
+2026-01-31 21:44:14,959 - [DEBUG] SOC_FAMILY  = "zynq"
+2026-01-31 21:44:14,959 - [DEBUG] SOC_VARIANT = ""
+2026-01-31 21:44:14,959 - [INFO] Silentconfig project
+2026-01-31 21:44:14,959 - [DEBUG] Running CMD: yes "" | env KCONFIG_CONFIG=/home/engin/gitrepos/sandpiper_petalinux/project-spec/configs/config conf /home/engin/gitrepos/sandpiper_petalinux/project-spec/configs/configs/Kconfig
+2026-01-31 21:44:14,966 - [DEBUG] *
 * PetaLinux System Configuration
 *
 ZYNQ Configuration (SYSTEM_ZYNQ) [Y/?] y
@@ -245,9 +245,9 @@ user layer 0 (USER_LAYER_0) []
 #
 # configuration written to /home/engin/gitrepos/sandpiper_petalinux/project-spec/configs/config
 #
-2026-01-31 06:52:50,966 - [INFO] Silentconfig rootfs
-2026-01-31 06:52:50,966 - [DEBUG] Running CMD: yes "" | env KCONFIG_CONFIG=/home/engin/gitrepos/sandpiper_petalinux/project-spec/configs/rootfs_config conf /home/engin/gitrepos/sandpiper_petalinux/project-spec/configs/rootfsconfigs/Kconfig
-2026-01-31 06:52:50,979 - [DEBUG] *
+2026-01-31 21:44:15,024 - [INFO] Silentconfig rootfs
+2026-01-31 21:44:15,024 - [DEBUG] Running CMD: yes "" | env KCONFIG_CONFIG=/home/engin/gitrepos/sandpiper_petalinux/project-spec/configs/rootfs_config conf /home/engin/gitrepos/sandpiper_petalinux/project-spec/configs/rootfsconfigs/Kconfig
+2026-01-31 21:44:15,036 - [DEBUG] *
 * Configuration
 *
 *
@@ -970,25 +970,25 @@ zip-dbg (zip-dbg) [N/y/?]
 *
 * autoconf 
 *
-autoconf (autoconf) [Y/n/?] 
+autoconf (autoconf) [N/y/?] 
 autoconf-dev (autoconf-dev) [N/y/?] 
 autoconf-dbg (autoconf-dbg) [N/y/?] 
 *
 * automake 
 *
-automake (automake) [Y/n/?] 
+automake (automake) [N/y/?] 
 automake-dev (automake-dev) [N/y/?] 
 automake-dbg (automake-dbg) [N/y/?] 
 *
 * binutils 
 *
-binutils (binutils) [Y/n/?] 
+binutils (binutils) [N/y/?] 
 binutils-dev (binutils-dev) [N/y/?] 
 binutils-dbg (binutils-dbg) [N/y/?] 
 *
 * bison 
 *
-bison (bison) [Y/n/?] 
+bison (bison) [N/y/?] 
 bison-dbg (bison-dbg) [N/y/?] 
 bison-dev (bison-dev) [N/y/?] 
 *
@@ -1018,7 +1018,7 @@ expect-dev (expect-dev) [N/y/?]
 *
 * flex 
 *
-flex (flex) [Y/n/?] 
+flex (flex) [N/y/?] 
 flex-dev (flex-dev) [N/y/?] 
 flex-dbg (flex-dbg) [N/y/?] 
 *
@@ -2150,16 +2150,16 @@ font-util-dbg (font-util-dbg) [N/y/?]
 * gcc-runtime 
 *
 libstdc++ (libstdcPLUSPLUS) [Y/n/?] 
-libstdc++-dev (libstdcPLUSPLUS-dev) [Y/n/?] 
+libstdc++-dev (libstdcPLUSPLUS-dev) [N/y/?] 
 *
 * gcc-sanitizers 
 *
-gcc-sanitizers (gcc-sanitizers) [Y/n/?] 
-libubsan-dev (libubsan-dev) [Y/n/?] 
+gcc-sanitizers (gcc-sanitizers) [N/y/?] 
+libubsan-dev (libubsan-dev) [N/y/?] 
 libubsan (libubsan) [Y/n/?] 
-gcc-sanitizers-dbg (gcc-sanitizers-dbg) [Y/n/?] 
+gcc-sanitizers-dbg (gcc-sanitizers-dbg) [N/y/?] 
 libasan (libasan) [Y/n/?] 
-libasan-dev (libasan-dev) [Y/n/?] 
+libasan-dev (libasan-dev) [N/y/?] 
 *
 * gcr 
 *
@@ -2186,7 +2186,7 @@ glib-2.0-dev (glib-2.0-dev) [N/y/?]
 * glibc 
 *
 glibc (glibc) [Y/n/?] 
-glibc-dev (glibc-dev) [Y/n/?] 
+glibc-dev (glibc-dev) [N/y/?] 
 glibc-dbg (glibc-dbg) [N/y/?] 
 ldd (ldd) [N/y/?] 
 *
@@ -3530,7 +3530,7 @@ Add Users to Sudo users (ADD_USERS_TO_SUDOERS) [peta]
 #
 # configuration written to /home/engin/gitrepos/sandpiper_petalinux/project-spec/configs/rootfs_config
 #
-2026-01-31 06:52:50,986 - [INFO] Generating configuration files
-2026-01-31 06:52:50,987 - [DEBUG] No multilibs enabled.
-2026-01-31 06:52:50,987 - [DEBUG] No multilibs enabled.
-2026-01-31 06:52:51,005 - [DEBUG] Shutting down bitbake
+2026-01-31 21:44:15,043 - [INFO] Generating configuration files
+2026-01-31 21:44:15,044 - [DEBUG] No multilibs enabled.
+2026-01-31 21:44:15,044 - [DEBUG] No multilibs enabled.
+2026-01-31 21:44:15,061 - [DEBUG] Shutting down bitbake

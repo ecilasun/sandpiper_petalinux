@@ -829,28 +829,28 @@ CONFIG_pciutils=y
 #
 # autoconf 
 #
-CONFIG_autoconf=y
+# CONFIG_autoconf is not set
 # CONFIG_autoconf-dev is not set
 # CONFIG_autoconf-dbg is not set
 
 #
 # automake 
 #
-CONFIG_automake=y
+# CONFIG_automake is not set
 # CONFIG_automake-dev is not set
 # CONFIG_automake-dbg is not set
 
 #
 # binutils 
 #
-CONFIG_binutils=y
+# CONFIG_binutils is not set
 # CONFIG_binutils-dev is not set
 # CONFIG_binutils-dbg is not set
 
 #
 # bison 
 #
-CONFIG_bison=y
+# CONFIG_bison is not set
 # CONFIG_bison-dbg is not set
 # CONFIG_bison-dev is not set
 
@@ -885,7 +885,7 @@ CONFIG_bison=y
 #
 # flex 
 #
-CONFIG_flex=y
+# CONFIG_flex is not set
 # CONFIG_flex-dev is not set
 # CONFIG_flex-dbg is not set
 
@@ -2193,17 +2193,17 @@ CONFIG_font-util=y
 # gcc-runtime 
 #
 CONFIG_libstdcPLUSPLUS=y
-CONFIG_libstdcPLUSPLUS-dev=y
+# CONFIG_libstdcPLUSPLUS-dev is not set
 
 #
 # gcc-sanitizers 
 #
-CONFIG_gcc-sanitizers=y
-CONFIG_libubsan-dev=y
+# CONFIG_gcc-sanitizers is not set
+# CONFIG_libubsan-dev is not set
 CONFIG_libubsan=y
-CONFIG_gcc-sanitizers-dbg=y
+# CONFIG_gcc-sanitizers-dbg is not set
 CONFIG_libasan=y
-CONFIG_libasan-dev=y
+# CONFIG_libasan-dev is not set
 
 #
 # gcr 
@@ -2234,7 +2234,7 @@ CONFIG_glib-2.0=y
 # glibc 
 #
 CONFIG_glibc=y
-CONFIG_glibc-dev=y
+# CONFIG_glibc-dev is not set
 # CONFIG_glibc-dbg is not set
 # CONFIG_ldd is not set
 
