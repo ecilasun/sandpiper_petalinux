@@ -405,7 +405,7 @@ error:
 	return err;
 }
 
-static int sandpiper_alsa_remove(struct platform_device *pdev)
+static void sandpiper_alsa_remove(struct platform_device *pdev)
 {
 	struct snd_card *card = platform_get_drvdata(pdev);
 	struct sandpiper_alsa *chip = card->private_data;
@@ -430,7 +430,6 @@ static int sandpiper_alsa_remove(struct platform_device *pdev)
 	snd_card_free(card);
 	
 	dev_info(&pdev->dev, "Sandpiper ALSA driver removed\n");
-	return 0;
 }
 
 static struct of_device_id sandpiper_alsa_of_match[] = {
