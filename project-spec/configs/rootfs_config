@@ -600,18 +600,18 @@ CONFIG_wget=y
 #
 # alsa-utils 
 #
-# CONFIG_alsa-utils is not set
+CONFIG_alsa-utils=y
 # CONFIG_alsa-utils-aconnect is not set
 # CONFIG_alsa-utils-alsaloop is not set
 # CONFIG_alsa-utils-aseqdump is not set
-# CONFIG_alsa-utils-aplay is not set
+CONFIG_alsa-utils-aplay=y
 # CONFIG_alsa-utils-iecset is not set
 # CONFIG_alsa-utils-alsaucm is not set
 # CONFIG_alsa-utils-dev is not set
 # CONFIG_alsa-utils-alsamixer is not set
-# CONFIG_alsa-utils-amixer is not set
-# CONFIG_alsa-utils-speakertest is not set
-# CONFIG_alsa-utils-alsactl is not set
+CONFIG_alsa-utils-amixer=y
+CONFIG_alsa-utils-speakertest=y
+CONFIG_alsa-utils-alsactl=y
 # CONFIG_alsa-utils-dbg is not set
 # CONFIG_alsa-utils-midi is not set
 # CONFIG_alsa-utils-aseqnet is not set
@@ -3751,6 +3751,7 @@ CONFIG_Init-manager-sysvinit=y
 # CONFIG_gpio-demo is not set
 # CONFIG_peekpoke is not set
 CONFIG_sandpiper=y
+CONFIG_sandpiper-alsa=y
 
 #
 # PetaLinux RootFS Settings
