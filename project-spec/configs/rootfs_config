@@ -2236,7 +2236,7 @@ CONFIG_glib-2.0=y
 CONFIG_glibc=y
 # CONFIG_glibc-dev is not set
 # CONFIG_glibc-dbg is not set
-# CONFIG_ldd is not set
+CONFIG_ldd=y
 
 #
 # gnome-desktop-testing 
@@ -3738,9 +3738,7 @@ CONFIG_u-boot-tools=y
 # CONFIG_imagefeature-ssh-server-dropbear is not set
 CONFIG_imagefeature-ssh-server-openssh=y
 CONFIG_imagefeature-hwcodecs=y
-CONFIG_imagefeature-package-management=y
-CONFIG_package-feed-uris=""
-CONFIG_package-feed-archs=""
+# CONFIG_imagefeature-package-management is not set
 # CONFIG_imagefeature-debug-tweaks is not set
 # CONFIG_imagefeature-empty-root-password is not set
 # CONFIG_imagefeature-serial-autologin-root is not set
