@@ -3751,7 +3751,7 @@ CONFIG_Init-manager-sysvinit=y
 # CONFIG_gpio-demo is not set
 # CONFIG_peekpoke is not set
 CONFIG_sandpiper=y
-CONFIG_sandpiper_alsa=y
+# CONFIG_sandpiper-alsa is not set
 
 #
 # PetaLinux RootFS Settings
