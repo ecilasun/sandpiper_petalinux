@@ -46,18 +46,20 @@
 #define MAKEVMODEINFO(_cmode, _vmode, _scanEnable) ((_cmode&0x1)<<2) | ((_vmode&0x1)<<1) | (_scanEnable&0x1)
 
 // VPU command fifo commands
-#define VPUCMD_SETVPAGE			0x00000000
-#define VPUCMD_RESERVED			0x00000001
-#define VPUCMD_SETVMODE			0x00000002
-#define VPUCMD_SHIFTCACHE		0x00000003
-#define VPUCMD_SHIFTSCANOUT		0x00000004
-#define VPUCMD_SHIFTPIXEL		0x00000005
-#define VPUCMD_SETVPAGE2		0x00000006
-#define VPUCMD_SYNCSWAP			0x00000007
-#define VPUCMD_WCONTROLREG		0x00000008
-#define VPUCMD_WPROGADDR		0x00000009
-#define VPUCMD_WPROGWORD		0x0000000A
-#define VPUCMD_NOOP				0x000000FF
+#define VPUCMD_SETVPAGE				0x00000000
+#define VPUCMD_RESERVED				0x00000001
+#define VPUCMD_SETVMODE				0x00000002
+#define VPUCMD_SHIFTCACHE			0x00000003
+#define VPUCMD_SHIFTSCANOUT			0x00000004
+#define VPUCMD_SHIFTPIXEL			0x00000005
+#define VPUCMD_SETVPAGE2			0x00000006
+#define VPUCMD_SYNCSWAP				0x00000007
+#define VPUCMD_WCONTROLREG			0x00000008
+#define VPUCMD_SETVPAGE_B			0x00000009
+#define VPUCMD_SETVPAGE2_B			0x0000000A
+#define VPUCMD_SYNCSWAP_B			0x0000000B
+#define VPUCMD_SETMIXMODE			0x0000000C
+#define VPUCMD_NOOP					0x000000FF
 
 enum EVideoMode
 {
@@ -255,6 +257,12 @@ static int dev_release(struct inode *inode, struct file *file)
 			iowrite32(0x18000000, (volatile uint32_t*)(drvdata->video_ctl));
 			iowrite32(VPUCMD_SETVMODE, (volatile uint32_t*)(drvdata->video_ctl));
 			iowrite32(modeflags, (volatile uint32_t*)(drvdata->video_ctl));
+
+			// Stop overlay buffer scan and mixing
+			iowrite32(VPUCMD_SETVPAGE2, (volatile uint32_t*)(drvdata->video_ctl));
+			iowrite32(0x18000000, (volatile uint32_t*)(drvdata->video_ctl));
+			iowrite32(VPUCMD_SETMIXMODE, (volatile uint32_t*)(drvdata->video_ctl));
+			iowrite32(0, (volatile uint32_t*)(drvdata->video_ctl));
 
 			// Reset VPU control registers
 			iowrite32(VPUCMD_WCONTROLREG | 0, (volatile uint32_t*)(drvdata->video_ctl));
