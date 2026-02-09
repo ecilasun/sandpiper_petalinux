@@ -262,7 +262,6 @@ static int dev_release(struct inode *inode, struct file *file)
 			iowrite32(VPUCMD_SETVPAGE_B, (volatile uint32_t*)(drvdata->video_ctl));
 			iowrite32(0x18000000, (volatile uint32_t*)(drvdata->video_ctl));
 			iowrite32(VPUCMD_SETMIXMODE, (volatile uint32_t*)(drvdata->video_ctl));
-			iowrite32(0, (volatile uint32_t*)(drvdata->video_ctl));
 
 			// Reset VPU control registers
 			iowrite32(VPUCMD_WCONTROLREG | 0, (volatile uint32_t*)(drvdata->video_ctl));
