@@ -259,7 +259,7 @@ static int dev_release(struct inode *inode, struct file *file)
 			iowrite32(modeflags, (volatile uint32_t*)(drvdata->video_ctl));
 
 			// Stop overlay buffer scan and mixing
-			iowrite32(VPUCMD_SETVPAGE2, (volatile uint32_t*)(drvdata->video_ctl));
+			iowrite32(VPUCMD_SETVPAGE_B, (volatile uint32_t*)(drvdata->video_ctl));
 			iowrite32(0x18000000, (volatile uint32_t*)(drvdata->video_ctl));
 			iowrite32(VPUCMD_SETMIXMODE, (volatile uint32_t*)(drvdata->video_ctl));
 			iowrite32(0, (volatile uint32_t*)(drvdata->video_ctl));
