@@ -12,7 +12,7 @@
 <MemInfo Version="1" Minor="9">
   <MemoryArray InstPath="blockone_i/videomodule_0/inst/videocoreInst/scanlinecache_inst/xpm_memory_base_inst" MemoryPrimitive="block" MemoryConfiguration="enabled_configuration">
     <MemoryLayout Name="blockone_i/videomodule_0/inst/videocoreInst/scanlinecache_inst/xpm_memory_base_inst" CoreMemory_Width="64" MemoryType="RAM_SDP">
-      <BRAM MemType="RAMB36" Placement="X3Y11" Read_Width_A="72" Read_Width_B="0" SLR_INDEX="0">
+      <BRAM MemType="RAMB36" Placement="X1Y8" Read_Width_A="72" Read_Width_B="0" SLR_INDEX="0">
         <DataWidth_PortA MSB="63" LSB="0"/>
         <AddressRange_PortA Begin="0" End="511"/>
         <BitLayout_PortA pattern="p0_d64"/>
@@ -25,7 +25,7 @@
   </MemoryArray>
   <MemoryArray InstPath="blockone_i/videomodule_0/inst/videocoreInst/scanlinecache_b_inst/xpm_memory_base_inst" MemoryPrimitive="block" MemoryConfiguration="enabled_configuration">
     <MemoryLayout Name="blockone_i/videomodule_0/inst/videocoreInst/scanlinecache_b_inst/xpm_memory_base_inst" CoreMemory_Width="64" MemoryType="RAM_SDP">
-      <BRAM MemType="RAMB36" Placement="X3Y10" Read_Width_A="72" Read_Width_B="0" SLR_INDEX="0">
+      <BRAM MemType="RAMB36" Placement="X1Y7" Read_Width_A="72" Read_Width_B="0" SLR_INDEX="0">
         <DataWidth_PortA MSB="63" LSB="0"/>
         <AddressRange_PortA Begin="0" End="511"/>
         <BitLayout_PortA pattern="p0_d64"/>
