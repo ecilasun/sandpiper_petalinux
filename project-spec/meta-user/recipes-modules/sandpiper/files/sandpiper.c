@@ -43,7 +43,8 @@
 #define SP_IOCTL_GET_VCP_CTL		_IOR('k', 11, void*)
 
 // Video mode control word
-#define MAKEVMODEINFO(_cmode, _vmode, _scanEnable) ((_cmode&0x1)<<2) | ((_vmode&0x1)<<1) | (_scanEnable&0x1)
+#define MAKEVMODEFLAGS(_cmode, _vmode, _scanlineDoubleEnable, _scanEnable) (((_scanlineDoubleEnable & 0x1) << 3) | ((_cmode & 0x1) << 2) | ((_vmode & 0x1) << 1) | ((_scanEnable & 0x1)))
+#define MAKEVMODEINFO(_strideUnitsMinusOne, _cmode, _vmode, _scanlineDoubleEnable, _scanEnable) (((_strideUnitsMinusOne & 0xFF) << 4) | MAKEVMODEFLAGS(_cmode, _vmode, _scanlineDoubleEnable, _scanEnable))
 
 // VPU command fifo commands
 #define VPUCMD_SETVPAGE				0x00000000
@@ -51,7 +52,7 @@
 #define VPUCMD_SETVMODE				0x00000002
 #define VPUCMD_SHIFTCACHE			0x00000003
 #define VPUCMD_SHIFTSCANOUT			0x00000004
-#define VPUCMD_SHIFTPIXEL			0x00000005
+#define VPUCMD_RESERVED2			0x00000005
 #define VPUCMD_SETVPAGE2			0x00000006
 #define VPUCMD_SYNCSWAP				0x00000007
 #define VPUCMD_WCONTROLREG			0x00000008
@@ -252,7 +253,7 @@ static int dev_release(struct inode *inode, struct file *file)
 		// VPU
 		{
 			// Set video mode to 640x480x16 RGB and scanout pointing at linux framebuffer
-			uint32_t modeflags = MAKEVMODEINFO((uint32_t)ECM_16bit_RGB, (uint32_t)EVM_640_Wide, (uint32_t)EVS_Enable);
+			uint32_t modeflags = MAKEVMODEINFO(9, (uint32_t)ECM_16bit_RGB, (uint32_t)EVM_640_Wide, 0, (uint32_t)EVS_Enable);
 			iowrite32(VPUCMD_SETVPAGE, (volatile uint32_t*)(drvdata->video_ctl));
 			iowrite32(0x18000000, (volatile uint32_t*)(drvdata->video_ctl));
 			iowrite32(VPUCMD_SETVMODE, (volatile uint32_t*)(drvdata->video_ctl));
@@ -270,8 +271,6 @@ static int dev_release(struct inode *inode, struct file *file)
 			iowrite32(VPUCMD_SHIFTCACHE, (volatile uint32_t*)(drvdata->video_ctl));
 			iowrite32(0, (volatile uint32_t*)(drvdata->video_ctl));
 			iowrite32(VPUCMD_SHIFTSCANOUT, (volatile uint32_t*)(drvdata->video_ctl));
-			iowrite32(0, (volatile uint32_t*)(drvdata->video_ctl));
-			iowrite32(VPUCMD_SHIFTPIXEL, (volatile uint32_t*)(drvdata->video_ctl));
 			iowrite32(0, (volatile uint32_t*)(drvdata->video_ctl));
 		}
 
