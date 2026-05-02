@@ -39,9 +39,9 @@
 #define APUCMD_SWAPCHANNELS     0x00000003
 #define APUCMD_SETRATE          0x00000004
 
-/* Buffer Size Setting (512 stereo samples = 2KB per buffer) */
-#define APU_BUFFER_SIZE_CODE    4  /* x16 bursts = 512 samples */
-#define APU_SAMPLE_COUNT        512
+/* Buffer Size Setting (1024 stereo samples = 4KB per buffer) */
+#define APU_BUFFER_SIZE_CODE    5  /* x16 bursts = 1024 samples */
+#define APU_SAMPLE_COUNT        1024
 #define APU_BUFFER_BYTES        (APU_SAMPLE_COUNT * 4)  /* 4 bytes per stereo sample */
 
 /* Sample Rate */
@@ -50,7 +50,7 @@
 
 /* ALSA PCM Hardware Parameters */
 #define MIN_PERIODS             2
-#define MAX_PERIODS             8
+#define MAX_PERIODS             2
 #define PERIOD_BYTES            APU_BUFFER_BYTES
 
 /* Private data structure */
@@ -189,6 +189,7 @@ static int sandpiper_pcm_open(struct snd_pcm_substream *substream)
 	struct snd_pcm_runtime *runtime = substream->runtime;
 	
 	runtime->hw = sandpiper_pcm_hw;
+	snd_pcm_hw_constraint_integer(runtime, SNDRV_PCM_HW_PARAM_PERIODS);
 	chip->substream = substream;
 	chip->hw_ptr = 0;
 	chip->buffer_pos = 0;
@@ -370,7 +371,7 @@ static int sandpiper_alsa_probe(struct platform_device *pdev)
 	hrtimer_init(&chip->timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
 	chip->timer.function = sandpiper_timer_callback;
 	
-	/* Timer period: check every ~2ms (much faster than the ~11.6ms period) */
+	/* Timer period: check every ~2ms (much faster than the ~23.2ms period) */
 	chip->timer_period = ktime_set(0, 2000000);  /* 2 milliseconds */
 	atomic_set(&chip->timer_running, 0);
 	

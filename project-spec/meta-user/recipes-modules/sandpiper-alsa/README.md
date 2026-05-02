@@ -10,13 +10,13 @@ This ALSA driver provides audio playback support for the Sandpiper APU (Audio Pr
 - **Register Size**: 4KB (0x1000)
 - **Sample Rate**: 44.1 KHz (fixed)
 - **Format**: 16-bit stereo (S16_LE)
-- **Buffer Size**: 512 stereo samples (2048 bytes) per period
+- **Buffer Size**: 1024 stereo samples (4096 bytes) per period
 - **Architecture**: Ping-pong buffer (dual-buffer DMA)
 
 ## APU Architecture
 
 The APU uses an internal dual-port sample memory with two buffers:
-- Each buffer holds 512 stereo samples (2KB)
+- Each buffer holds 1024 stereo samples (4KB)
 - Total internal memory: 8KB (2 × 4KB)
 - The APU alternates between buffers automatically
 - A frame counter toggles each time the APU switches buffers
@@ -80,7 +80,7 @@ aplay /path/to/audio.wav
 2. **Fixed Sample Rate**: 44.1 KHz only
 3. **Fixed Format**: 16-bit stereo only (SNDRV_PCM_FMTBIT_S16_LE)
 4. **No Interrupts**: Uses polling timer instead of interrupt-driven operation
-5. **Buffer Size**: Fixed period size of 512 samples (2048 bytes)
+5. **Buffer Size**: Fixed period size of 1024 samples (4096 bytes)
 
 ## Troubleshooting
 
@@ -124,7 +124,7 @@ The APU accepts commands via 32-bit writes to the base address:
 
 1. **Set Buffer Size**: 
    - Write `0x00000000` (APUCMD_BUFFERSIZE)
-   - Write `0x00000004` (size code for 512 samples)
+   - Write `0x00000005` (size code for 1024 samples)
 
 2. **Start DMA**:
    - Write `0x00000001` (APUCMD_START)
