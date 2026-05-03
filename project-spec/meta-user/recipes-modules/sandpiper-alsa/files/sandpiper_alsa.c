@@ -141,14 +141,6 @@ static enum hrtimer_restart sandpiper_timer_callback(struct hrtimer *timer)
 	
 	runtime = chip->substream->runtime;
 	
-	/* Stop processing if PCM is no longer running.
-	 * This prevents the timer callback from continuing to submit DMA buffers
-	 * and calling snd_pcm_period_elapsed() after playback has completed,
-	 * which would cause an infinite loop of period notifications.
-	 */
-	if (!snd_pcm_running(chip->substream))
-		goto restart_timer;
-	
 	/* Check if APU has swapped buffers */
 	current_frame = apu_get_frame(chip);
 	if (current_frame != chip->last_apu_frame) {
@@ -158,6 +150,15 @@ static enum hrtimer_restart sandpiper_timer_callback(struct hrtimer *timer)
 		chip->hw_ptr += APU_SAMPLE_COUNT;
 		if (chip->hw_ptr >= runtime->buffer_size)
 			chip->hw_ptr -= runtime->buffer_size;
+		
+		/* Check if timer was stopped (e.g. by SNDRV_PCM_TRIGGER_STOP).
+		 * If timer_running was cleared while we were in this callback,
+		 * do NOT submit more DMA or call period_elapsed — just bail out.
+		 * This is the self-terminate mechanism: the timer naturally dies
+		 * when playback stops instead of spinning forever.
+		 */
+		if (!atomic_read(&chip->timer_running))
+			return HRTIMER_NORESTART;
 		
 		/* Submit next buffer to APU */
 		chip->buffer_pos = (chip->buffer_pos + 1) & 1;
