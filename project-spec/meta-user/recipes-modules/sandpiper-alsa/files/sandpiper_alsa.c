@@ -202,6 +202,13 @@ static int sandpiper_pcm_close(struct snd_pcm_substream *substream)
 {
 	struct sandpiper_alsa *chip = snd_pcm_substream_chip(substream);
 	
+	/* Stop timer to prevent hardware from running after close */
+	atomic_set(&chip->timer_running, 0);
+	hrtimer_cancel(&chip->timer);
+	
+	/* Stop APU hardware */
+	apu_stop(chip);
+	
 	chip->substream = NULL;
 	return 0;
 }
