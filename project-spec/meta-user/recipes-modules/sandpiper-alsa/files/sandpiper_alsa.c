@@ -137,7 +137,7 @@ static enum hrtimer_restart sandpiper_timer_callback(struct hrtimer *timer)
 		return HRTIMER_NORESTART;
 	
 	if (!chip->substream || !chip->substream->runtime)
-		goto restart_timer;
+		return HRTIMER_RESTART;
 	
 	runtime = chip->substream->runtime;
 	
@@ -151,15 +151,6 @@ static enum hrtimer_restart sandpiper_timer_callback(struct hrtimer *timer)
 		if (chip->hw_ptr >= runtime->buffer_size)
 			chip->hw_ptr -= runtime->buffer_size;
 		
-		/* Check if timer was stopped (e.g. by SNDRV_PCM_TRIGGER_STOP).
-		 * If timer_running was cleared while we were in this callback,
-		 * do NOT submit more DMA or call period_elapsed — just bail out.
-		 * This is the self-terminate mechanism: the timer naturally dies
-		 * when playback stops instead of spinning forever.
-		 */
-		if (!atomic_read(&chip->timer_running))
-			return HRTIMER_NORESTART;
-		
 		/* Submit next buffer to APU */
 		chip->buffer_pos = (chip->buffer_pos + 1) & 1;
 		dma_addr_t next_addr = chip->dma_addr + (chip->buffer_pos * APU_BUFFER_BYTES);
@@ -169,9 +160,12 @@ static enum hrtimer_restart sandpiper_timer_callback(struct hrtimer *timer)
 		snd_pcm_period_elapsed(chip->substream);
 	}
 	
-restart_timer:
-	hrtimer_forward_now(timer, chip->timer_period);
-	return HRTIMER_RESTART;
+	if (atomic_read(&chip->timer_running)) {
+		hrtimer_forward_now(timer, chip->timer_period);
+		return HRTIMER_RESTART;
+	}
+	
+	return HRTIMER_NORESTART;
 }
 
 /* ALSA PCM operations */
@@ -211,12 +205,9 @@ static int sandpiper_pcm_close(struct snd_pcm_substream *substream)
 {
 	struct sandpiper_alsa *chip = snd_pcm_substream_chip(substream);
 	
-	/* Stop timer to prevent hardware from running after close */
+	apu_stop(chip);
 	atomic_set(&chip->timer_running, 0);
 	hrtimer_cancel(&chip->timer);
-	
-	/* Stop APU hardware */
-	apu_stop(chip);
 	
 	chip->substream = NULL;
 	return 0;
@@ -303,12 +294,9 @@ static int sandpiper_pcm_trigger(struct snd_pcm_substream *substream, int cmd)
 		
 	case SNDRV_PCM_TRIGGER_STOP:
 	case SNDRV_PCM_TRIGGER_SUSPEND:
-		/* Stop timer */
+		apu_stop(chip);
 		atomic_set(&chip->timer_running, 0);
 		hrtimer_cancel(&chip->timer);
-		
-		/* Stop APU */
-		apu_stop(chip);
 		break;
 		
 	default:
