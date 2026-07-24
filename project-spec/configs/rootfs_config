@@ -1195,7 +1195,7 @@ CONFIG_bluez5-noinst-tools=y
 #
 # ffmpeg 
 #
-# CONFIG_ffmpeg is not set
+CONFIG_ffmpeg=y
 # CONFIG_ffmpeg-dbg is not set
 # CONFIG_ffmpeg-dev is not set
 
@@ -2949,8 +2949,8 @@ CONFIG_tcf-agent=y
 #
 # v4l-utils 
 #
-# CONFIG_v4l-utils is not set
-# CONFIG_libv4l is not set
+CONFIG_v4l-utils=y
+CONFIG_libv4l=y
 # CONFIG_ir-keytable is not set
 # CONFIG_v4l-utils-dev is not set
 # CONFIG_media-ctl is not set
@@ -3185,7 +3185,7 @@ CONFIG_tcf-agent=y
 #
 # gstreamer1.0 
 #
-# CONFIG_gstreamer1.0 is not set
+CONFIG_gstreamer1.0=y
 # CONFIG_gstreamer1.0-dev is not set
 # CONFIG_gstreamer1.0-dbg is not set
 
